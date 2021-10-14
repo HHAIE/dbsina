@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "busboy": "^0.3.1",
+    "connect-busboy": "^0.0.2",
+    "connect-form": "^0.2.1",
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
+    "multer": "^1.4.3",
+    "mysql": "^2.18.1",
+    "util": "^0.12.4"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "build": "cd client && yarn && yarn build"
+  },
+  "engines": {
+    "node": "v14.17.6"
+  }
+}

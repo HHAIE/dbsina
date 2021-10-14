@@ -1,0 +1,62 @@
+/* -----container ---- */
+.container {
+  max-width: 100%;
+  padding: 0;
+}
+/* --- Nav Bar Styling --- */
+
+/* Logo */
+.navbar-brand{
+  margin-left: 1rem;
+}
+.navbar-brand .brand-img {
+  position: absolute;
+  width: 15%;
+  top: 10px;
+  left: 10px;
+  border-radius: 50px;
+  padding: 1%;
+  box-shadow: 2px 2px 2px #999;
+}
+
+.brand-img img{
+width: 100%;
+}
+/* Sign in Button */
+.navbar-light .navbar-nav .nav-link.btn-twitter, .btn-twitter{
+  background-color: rgb(29 ,161 ,242);
+  border-radius: 50px;
+  color: white;
+  font-size: 0.8em;
+  font-weight: 600;
+  padding: 0.1em 0.3em;
+  height: 100%;
+  width: auto;
+}
+
+.navbar-light .navbar-nav .nav-link.btn-twitter:hover, .btn-twitter:hover{
+  background-color: rgb(25, 126, 189);
+  color: rgb(204, 204, 204);
+}
+.nav-link{
+width: 100%;
+height: 100%;
+display: flex;
+align-items: center;
+}
+.nav-item{
+padding: 0;
+display: flex;
+vertical-align: middle;
+align-items: center;
+font-size: 0.8em;
+}
+.navbar{
+padding: 0;
+margin-bottom: 20px;
+}
+ul.navbar-nav.m-auto{
+margin:0 auto 0 auto!important;
+height: 70px;
+}
+

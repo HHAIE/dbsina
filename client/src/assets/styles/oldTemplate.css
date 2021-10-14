@@ -1,0 +1,496 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  color: #252525;
+}
+
+body::after {
+  content: "";
+  background:url('../images/logo.png');
+  background-size: 90% 90%;
+  background-repeat: no-repeat;
+  opacity: 0.1;
+  top: 10%;
+  left: 10%;
+  bottom: 5%;
+  right: 5%;
+  margin: auto;
+  position: absolute;
+  z-index: -1;
+}
+
+a {
+  text-decoration: none;
+  color: #252525;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 10px;
+  text-align: center;
+}
+
+.btn {
+  text-transform: uppercase;
+  margin: 35px auto;
+  padding: 10px;
+  border: 1px solid rgba(0,0,0,.29);
+  cursor: pointer;
+  background: #fff;
+  font-size: 16px;
+  width: 250px;
+  position: relative;
+}
+
+.btn:hover {
+  border-color: rgba(0,0,0,.5);
+  text-decoration: none;
+}
+
+.btn:focus {
+  outline: 0;
+  font-weight: 700;
+  border-width: 2px;
+}
+
+.center {
+  text-align: center;
+}
+
+.active {
+  font-weight: bold;
+}
+
+.nav ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  text-decoration: none;
+}
+
+.nav li:first-child {
+  padding-left: 0;
+}
+
+ul {
+  padding-left: 0;
+}
+
+li {
+  list-style-type: none;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.dashboard{
+  width: 70%;
+  text-align: center;
+  margin: 0 auto;
+  padding: 0;
+}
+.toggle-questions{
+  width: 100%;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+.toggle-btn{
+  width: 50%;
+  display: inline-block;
+  padding: 1%;
+  margin: 0;
+  border: 2px solid #ddd;
+  text-align: center;
+  cursor: pointer;
+}
+.toggle-btn.left{
+  border-top-left-radius: 30px;
+}
+
+.toggle-btn.right{
+  border-top-right-radius: 30px;
+}
+
+.active{
+  background-color:#dad7d7 ;
+}
+
+.questions{
+  border: 2px solid #ddd;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  border-top: none;
+  margin-top: -1%;
+  padding: 5% 0;
+}
+
+.question {
+  margin: 1% 9%;
+  width: 82%;
+  text-align: left;
+  border: 1px solid #dad7d7;
+  border-radius: 30px;
+  box-shadow: 5px 5px #dad7d7;
+}
+
+.question a{
+  width: 100%;
+}
+
+.avatar {
+  height: 100px;
+  width: 100px;
+  border-radius: 25px;
+  margin: 10px;
+  display: inline;
+  object-fit: cover;
+}
+
+
+.question-head {
+  padding: 2% 10%;
+  display: block;
+  width: 80%;
+  text-align: left;
+  background-color: #dad7d7;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  border-bottom: 1px solid #dad7d7;
+}
+
+.time{
+  font-size: 0.5em;
+  padding-top: 5px;
+}
+.question-body {
+  display: flex;
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+}
+.question-info, .user-info {
+  padding: 10px;
+  width: 100%;
+  border-left: 1px solid #dad7d7;
+}
+
+.question-info div, .user-info div{
+  position: relative;
+  padding-top: 10px;
+  font-size: 0.8em;
+  color: #4a4747;
+}
+.user-info div span{
+
+  position: absolute;
+  right: 0;
+}
+.user-info > span:first-child {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-right: 5px;
+}
+
+
+
+.resultDiv {
+  width: 90%;
+  text-align: center;
+  border: 1px solid #dad7d7;
+  border-radius: 30px;
+  box-shadow: 5px 5px #dad7d7;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Hacky but less typing in the video */
+.question-info > div > span:first-child {
+  font-weight: bold;
+  margin-right: 5px;
+}
+.question-info > div > span:nth-child(2) {
+  color: #969696;
+  font-size: 16px;
+}
+.question-info > div > div {
+  color: #969696;
+  font-size: 15px;
+}
+.question-info > div > p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+.question-icons {
+  display: flex;
+  align-items: center;
+}
+.question-icons > span {
+  color: #969696;
+  margin: 0 15px 0 5px;
+  font-size: 18px !important;
+}
+.question-icon {
+  font-size: 27px;
+  color: #697784;
+}
+.question-icon:hover {
+  color: #00b5d6;
+  cursor: pointer;
+}
+.replying-to {
+  border: none;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  color: #969696;
+  cursor: pointer;
+}
+
+.heart-button {
+  background: transparent;
+  border: none;
+}
+
+.new-question {
+  width: 100%;
+  max-width: 590px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea {
+  border-radius: 4px;
+  border: 1px solid #dad7d7;
+  padding: 2%;
+  vertical-align: middle;
+  font-size: 15px;
+  margin: 2% 0;
+}
+
+.tweet-length {
+  text-align: right;
+  margin-top: 10px;
+  font-size: 20px;
+  color: #C3392A;
+}
+
+
+.option{
+  background: #fff;
+  /* height: 100%; */
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px;
+  /* border: 2px solid lightgrey; */
+  transition: all 0.3s ease;
+}
+.option .dot{
+  height: 10px;
+  width: 20px;
+  background: #d9d9d9;
+  border-radius: 50%;
+  position: relative;
+}
+.option .dot::before{
+  position: absolute;
+  content: "";
+  top: 4px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  background: #0069d9;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(1.5);
+  transition: all 0.3s ease;
+}
+input[type="radio"]{
+  display: none;
+}
+#optionOne:checked:checked ~ .optionOne,
+#optionTwo:checked:checked ~ .optionTwo{
+  border-color: #0069d9;
+  background: #0069d9;
+}
+#optionOne:checked:checked ~ .optionOne .dot,
+#optionTwo:checked:checked ~ .optionTwo .dot{
+  background: #fff;
+}
+#optionOne:checked:checked ~ .optionOne .dot::before,
+#optionTwo:checked:checked ~ .optionTwo .dot::before{
+  opacity: 1;
+  transform: scale(1);
+}
+
+#optionOne:hover:hover ~ .optionOne,
+#optionTwo:hover:hover ~ .optionTwo{
+  border-color: #228bfb;
+  background: #228bfb;
+}
+#optionOne:hover:hover ~ .optionOne .dot,
+#optionTwo:hover:hover ~ .optionTwo .dot{
+  background: #fff;
+}
+
+.option span{
+  font-size: 20px;
+  color: #808080;
+}
+#optionOne:checked:checked ~ .optionOne span,
+#optionTwo:checked:checked ~ .optionTwo span{
+  color: #fff;
+}
+
+.new-answer{
+  padding: 5% 0;
+  text-align: center;
+}
+.new-answer button{
+  margin-top: 5%;
+  background:none;
+  border: 3px solid #dad7d7;
+  padding: 1% 5%;
+  border-radius: 15px;
+  font-size: 1.2em;
+  color: #dad7d7;
+  font-weight: 600;
+}
+
+.new-answer button:not([disabled]){
+  margin-top: 5%;
+  background:none;
+  border: 3px solid #0069d9;
+  padding: 1% 5%;
+  border-radius: 15px;
+  font-size: 1.2em;
+  color: #0069d9;
+  font-weight: 600;
+}
+.new-answer button:hover:not([disabled]){
+  cursor: pointer;
+  color: #eee;
+  background-color: #0069d9;
+  border:none;
+}
+
+.user-info{
+  width: 50%;
+}
+
+.score{
+  padding: 10px;
+  border-left:1px solid #dad7d7;
+  text-align: center;
+  vertical-align: middle;
+  width: 25%;
+}
+
+.score div:nth-child(2){
+  background-color: rgb(255, 174, 0);
+  width: 40px;
+  /* height: 50px; */
+  margin: auto;
+  vertical-align: middle;
+  padding: 15px;
+  border-radius: 100%;
+}
+
+.greenBg{
+  background-color: rgb(240, 245, 230);
+  border: 1px solid yellowgreen;
+  box-shadow: 5px 5px yellowgreen;
+}
+
+.nav li:last-child{
+  position: absolute;
+  right: 5%;
+  top:0;
+  width: 30%;
+}
+
+.nav-avatar img{
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+}
+
+.nav-avatar{
+  display: inline-flex;
+  vertical-align: middle;
+  padding-right: 5%;
+}
+.nav-avatar div{
+  display: inline;
+  margin: auto;
+  width: 100%;
+}
+.signInBox .new-answer{
+  text-align: center;
+}
+.signInBox .new-answer button{
+  display: block;
+  margin: auto;
+  margin-top: 2%;
+}
+
+.signInBox .new-answer select{
+  width: 50%;
+  padding: 10px;
+  border:2px solid #dad7d7;
+  border-radius: 10px;
+  font-size: 1.2em;
+}
+
+.resultDiv div.RadialProgress {
+  --hue: 220;
+  --holesize: 65%;
+  --track-bg: hsl(233 34% 92%);
+  --progress:50%;
+
+  block-size: 20vmin;
+  inline-size: 20vmin;
+  min-inline-size: 20px;
+  min-block-size: 20px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  font-weight: 700;
+  font-size: max(5vmin, 1.2em);
+  margin: 2% auto;
+}
+
+.RadialProgress:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    hsl(var(--hue) 100% 70%),
+    hsl(var(--hue) 100% 40%),
+    hsl(var(--hue) 100% 70%) var(--progress, 0%),
+    var(--track-bg) var(--progress, 0%) 100%
+  );
+
+  -webkit-mask-image: radial-gradient(
+    transparent var(--holesize),
+    black calc(var(--holesize) + 0.5px)
+    );
+
+  mask-image: radial-gradient(
+    transparent var(--holesize),
+    black calc(var(--holesize) + 0.5px)
+  );
+}
+
+

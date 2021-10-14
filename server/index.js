@@ -203,7 +203,7 @@ app.post("/addTableRow", (req, res) => {
     //     console.log("Data added successfully")
     //     res.send("Data added successfully")
     //     }
-    // });
+    // })
 })
   
 app.get("/removeTableRow", (req, res) => {

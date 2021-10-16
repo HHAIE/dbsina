@@ -1,4 +1,7 @@
 // server/index.js
+if (typeof(PhusionPassenger) != 'undefined') {
+  PhusionPassenger.configure({ autoInstall: false });
+}
 
 const express = require("express");
 var fs = require('fs')
@@ -242,5 +245,11 @@ app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
 });
   
-https.createServer(app)
-  .listen(3001);
+// https.createServer(app)
+//   .listen(3001);
+
+if (typeof(PhusionPassenger) != 'undefined') {
+  app.listen('passenger');
+} else {
+  app.listen(3001);
+}

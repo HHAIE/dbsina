@@ -20,18 +20,10 @@ class SignIn extends Component{
     componentDidMount(){
       const {dispatch, selectedUser}= this.props
       console.log(selectedUser)
-      // if(selectedUser){
-      //   console.log(selectedUser)
-      //   dispatch(setAuthedUser(selectedUser.id))
-      // }
-
-      // temporary code to allow access
-        dispatch(setAuthedUser("2378412595629472"))
-        this.setState(()=>{
-          return{
-              toHome: true,
-          }
-      })
+      if(selectedUser){
+        console.log(selectedUser)
+        dispatch(setAuthedUser(selectedUser.id))
+      }
     }
     componentDidUpdate(){
       const {dispatch, selectedUser}= this.props
@@ -61,6 +53,7 @@ class SignIn extends Component{
       };
 
       componentClicked = () => {
+        const {dispatch}= this.props
     //    setTimeout(ipcRenderer.send("fb-authenticate", "yes"), 1000)
     //    .then(()=>{
     //     this.setState(()=>{
@@ -70,6 +63,13 @@ class SignIn extends Component{
     //     })
     //    })
           // .then((res)=>{console.log(res)})
+          dispatch(setAuthedUser("2378412595629472"))
+        this.setState(()=>{
+          return{
+              toHome: true,
+          }
+      })
+
         }
 
     handleChange=(e)=>{
@@ -157,13 +157,13 @@ class SignIn extends Component{
                             Sign In
                     </button>
                 </form> */}
-                {/* <button className="fb connect" onClick={this.componentClicked}>Sign in with Facebook</button> */}
+                <button className="fb connect" onClick={this.componentClicked}>Sign in with Facebook</button>
                 
                 
 
 
 
-                
+
                 {/* main code to implement */}
                 {/* <FacebookLogin
                 appId="1335047956992839"
@@ -172,7 +172,6 @@ class SignIn extends Component{
                 onClick={this.componentClicked}
                 callback={this.responseFacebook}
                 /> */}
-                <h1>Hi</h1>
             </div>
         )
     }

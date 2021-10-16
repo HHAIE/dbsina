@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "node server/index.js",
-    "build": "cd client && yarn && yarn build && cd .. && rm -rf public/* && rm -f public/* && mv client/build/* public"
+    "build": "cd client && yarn && yarn build"
   },
   "engines": {
     "node": "v14.17.6"

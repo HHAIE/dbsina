@@ -24,7 +24,14 @@ class SignIn extends Component{
       //   console.log(selectedUser)
       //   dispatch(setAuthedUser(selectedUser.id))
       // }
+
+      // temporary code to allow access
         dispatch(setAuthedUser("2378412595629472"))
+        this.setState(()=>{
+          return{
+              toHome: true,
+          }
+      })
     }
     componentDidUpdate(){
       const {dispatch, selectedUser}= this.props
@@ -151,13 +158,21 @@ class SignIn extends Component{
                     </button>
                 </form> */}
                 {/* <button className="fb connect" onClick={this.componentClicked}>Sign in with Facebook</button> */}
-                <FacebookLogin
+                
+                
+
+
+
+                
+                {/* main code to implement */}
+                {/* <FacebookLogin
                 appId="1335047956992839"
                 autoLoad={true}
                 fields="name,email,picture"
                 onClick={this.componentClicked}
                 callback={this.responseFacebook}
-                />
+                /> */}
+                <h1>Hi</h1>
             </div>
         )
     }

@@ -20,10 +20,11 @@ class SignIn extends Component{
     componentDidMount(){
       const {dispatch, selectedUser}= this.props
       console.log(selectedUser)
-      if(selectedUser){
-        console.log(selectedUser)
-        dispatch(setAuthedUser(selectedUser.id))
-      }
+      // if(selectedUser){
+      //   console.log(selectedUser)
+      //   dispatch(setAuthedUser(selectedUser.id))
+      // }
+        dispatch(setAuthedUser("2378412595629472"))
     }
     componentDidUpdate(){
       const {dispatch, selectedUser}= this.props

@@ -60,12 +60,12 @@ function Nav(props){
                 <div className="nav-user">
                         <div className='nav-avatar'>
                             <img
-                            src={user.picture}
-                            alt={`Avatar of ${user.name}`}
+                            src={user && user.picture}
+                            alt={`Avatar of ${user && user.name}`}
                             className='avatar'
                             />
                             <div>
-                                {user.name}
+                                {user && user.name}
                             </div>
                         </div>
                   </div>

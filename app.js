@@ -242,7 +242,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
 });
   
-https.createServer({}, app)
+https.createServer(app)
   .listen(80, function () {
     console.log('Example app listening on port 3000! Go to https://localhost:3001/')
   });

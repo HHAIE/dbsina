@@ -20,6 +20,6 @@
     "build": "cd client && yarn && yarn build"
   },
   "engines": {
-    "node": "v14.17.6"
+    "node": "12.18.3"
   }
 }

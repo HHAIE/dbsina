@@ -26,7 +26,6 @@ class Dashboard extends Component{
       const {currentTable}=this.props
       let columns = !view ? await handleGetTableC(currentTable)
                           : []
-      console.log(columns)
       this.setState(()=>{
         return{
           tableColumn: columns,
@@ -79,12 +78,7 @@ function mapStateToProps({questions, users, authedUser, categories, data}, props
   const {type, servicename} = props.match.params
   let dataShown=null;
   if (type){
-    console.log(type)
-    console.log(servicename)
-    console.log(data['Services'])
-    dataShown = type==='Services' ? data[servicename]
-                                      : data['Staff'] ? Object.keys(data['Staff']).filter((id)=> data['Staff'][id].position===servicename)
-                                      .map((id)=>data['Staff'][id])
+    dataShown = data[servicename] ? data[servicename]
                                       : null
     // dataShown= dataShown !== null && Object.keys(dataShown)
     // console.log(dataShown)
@@ -93,14 +87,12 @@ function mapStateToProps({questions, users, authedUser, categories, data}, props
     const user = users[authedUser]
     const answeredQ = Object.keys(categories.services)
     const unansweredQ = Object.keys(categories.staff)
-    console.log(unansweredQ);
     // const unansweredQ = Object.keys(questions).filter((question)=> !(question in user.answers))
     return{
         answeredQ: answeredQ,
             // .sort((a,b)=> questions[b].timestamp - questions[a].timestamp),
         unansweredQ: unansweredQ,
-        currentTable: type==='Services' ? servicename
-                                        : 'Staff',
+        currentTable: servicename,
             // .sort((a,b)=> questions[b].timestamp - questions[a].timestamp)
         dataShown: dataShown
     }

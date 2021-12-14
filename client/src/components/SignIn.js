@@ -21,7 +21,6 @@ class SignIn extends Component{
       const {dispatch, selectedUser}= this.props
       console.log(selectedUser)
       if(selectedUser){
-        console.log(selectedUser)
         dispatch(setAuthedUser(selectedUser.id))
       }
     }
@@ -29,7 +28,6 @@ class SignIn extends Component{
       const {dispatch, selectedUser}= this.props
       console.log(selectedUser)
       if(selectedUser){
-        console.log(selectedUser)
         dispatch(setAuthedUser(selectedUser.id))
       }
     }
@@ -178,16 +176,12 @@ class SignIn extends Component{
 }
 
 function mapStateToProps({users}){
-  console.log(users);
   let selectedUser;
   for (let user in users){
-    console.log(users[user].authed);
     if(users[user].authed==1){
       selectedUser = users[user]
-      console.log(selectedUser);
     }
   }
-  console.log(selectedUser);
     return{
         selectedUser,
     }

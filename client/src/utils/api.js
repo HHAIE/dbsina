@@ -10,10 +10,13 @@
 // } from './_DATA.js'
 
 import {idToList, tableColumnsArray} from './helpers'
+// let fetchingURL = 'https://localhost:3001/'
+let fetchingURL = 'https://database.sinatoursegypt.com/'
 
 const categories= (cat1, cat2)=>{
   let output={}
-  let url = new URL('getTable', 'https://database.sinatoursegypt.com/')
+  
+  let url = new URL('getTable', fetchingURL)
   url.search = new URLSearchParams({
       table: cat1
   })
@@ -22,7 +25,7 @@ const categories= (cat1, cat2)=>{
   .then((res) => res.json())
   .then((services)=>output["services"]=services)
   .then(()=>{
-    let url = new URL('getTable', 'https://database.sinatoursegypt.com/')
+    let url = new URL('getTable', fetchingURL)
     url.search = new URLSearchParams({
         table: cat2
     })
@@ -38,7 +41,7 @@ const categories= (cat1, cat2)=>{
 }
 
 const adminUsers= (user1)=>{
-  let url = new URL('getTable', 'https://database.sinatoursegypt.com/')
+  let url = new URL('getTable', fetchingURL)
   url.search = new URLSearchParams({
       table: user1
   })
@@ -61,7 +64,7 @@ export function getInitialData () {
 }
 
 export function getTableData (info) {
-  let url = new URL('getTable', 'https://database.sinatoursegypt.com/')
+  let url = new URL('getTable', fetchingURL)
   url.search = new URLSearchParams({
       table: info
   })
@@ -73,7 +76,7 @@ export function getTableData (info) {
 }
 
 export function addTableRow (table, row) {
-  let url = new URL('addTableRow', 'https://database.sinatoursegypt.com/')
+  let url = new URL('addTableRow', fetchingURL)
   // url.search = new URLSearchParams({
   //     table: table,
   //     row: row
@@ -91,7 +94,7 @@ export function addTableRow (table, row) {
 }
 
 export function removeTableRow (table, rowId) {
-  let url = new URL('removeTableRow', 'https://database.sinatoursegypt.com/')
+  let url = new URL('removeTableRow', fetchingURL)
   url.search = new URLSearchParams({
       table: table,
       rowId: rowId
@@ -103,7 +106,7 @@ export function removeTableRow (table, rowId) {
 }
 
 export function updateTableRow (table, row, rowId) {
-  let url = new URL('updateTableRow', 'https://database.sinatoursegypt.com/')
+  let url = new URL('updateTableRow', fetchingURL)
   url.search = new URLSearchParams({
       table: table,
       row: row,
@@ -116,7 +119,7 @@ export function updateTableRow (table, row, rowId) {
 }
 
 export function getTableColumns (info) {
-  let url = new URL('getTableColumn', 'https://database.sinatoursegypt.com/')
+  let url = new URL('getTableColumn', fetchingURL)
   url.search = new URLSearchParams({
       table: info
   })

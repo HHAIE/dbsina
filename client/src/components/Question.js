@@ -93,8 +93,7 @@ class Question extends Component{
         else{
         return(
 
-          <div className='wrap' onClick={type==='Services' ?(()=>this.handleLink(service.name))
-                                                          : (()=>this.handleLink("Staff", service.name))}>
+          <div className='wrap' onClick={(()=>this.handleLink(service.name))}>
             {/* <Link onClick={type==='Services' ?(()=>this.handleLink(service.name))
                                             : (()=>this.handleLink("Staff", service.name))}
                   to={service !== null && `/${type}/${service.name}`} > */}
@@ -121,7 +120,7 @@ class Question extends Component{
                   </div>}
                   <div className='card--title'>
                     <h3>{service && service.name}</h3>
-                    <p>{category && "Web Developer"}</p>
+                    <p>{category && type}</p>
                   </div>
                   <div className='card--desc'>
                     <hr />
@@ -141,10 +140,8 @@ class Question extends Component{
                       </span>
                     </a>
                   </div>
-                  {!category && <button className="btn btn-danger deleteBtn" onClick={type==='Services' ?(()=>this.handleRemoveLink(servicename, service.id))
-                                                          : (()=>this.handleRemoveLink("Staff", service.id, servicename))}>Delete</button>}
-                  {category && <button className="btn btn-success addBtn" onClick={type==='Services' ?(this.handleAddLink)
-                                                          : (this.handleAddLink)}>Add</button>}
+                  {!category && <button className="btn btn-danger deleteBtn" onClick={(()=>this.handleRemoveLink(servicename, service.id))}>Delete</button>}
+                  {category && <button className="btn btn-success addBtn" onClick={(this.handleAddLink)}>Add</button>}
                 </div>
               </div>
             {/* </Link> */}
@@ -182,8 +179,7 @@ function mapStateToProps({authedUser, users, questions, categories, data}, props
     // const question = questions[id]
     let service;
     if(servicename){
-      service = type==='Services' ? (data[servicename] && data[servicename][id])
-                                  : data['Staff'] ? (Object.keys(data['Staff']).filter((id)=> data['Staff'][id].position===servicename).map((id)=>data['Staff'][id]))[id]
+      service = (data[servicename] && data[servicename][id]) ? (data[servicename] && data[servicename][id])
                                   :{}
     }else{
       service = type==='Services' ? categories.services[id]

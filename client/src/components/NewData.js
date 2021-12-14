@@ -40,7 +40,6 @@ class NewData extends Component{
         }, false);
       });
 
-      if(type==='Services'){
         return handleGetTableC(servicename)
         .then((data)=>{
           console.log(data)
@@ -52,18 +51,6 @@ class NewData extends Component{
             columns: data
           }))
         })
-      }else if(type==='Staff'){
-        return handleGetTableC('Staff')
-        .then((data)=>{
-          this.setState(()=>({
-            type: type,
-            servicename: servicename,
-            staffColumn: staff,
-            servicesColumn: services,
-            columns: data
-          }))
-        })
-      }
     }
 
     componentDidUpdate(){
@@ -113,12 +100,12 @@ class NewData extends Component{
             }))
           })
         }else if(type==='Staff'){
-          handleGetTableC('Staff')
+          handleGetTableC('Guides')
           .then((data)=>{
             this.setState(()=>({
               columns: data,
               type: type,
-              servicename:'Tour-Guide'
+              servicename:'Guides'
             }))
           })
         }
@@ -127,7 +114,6 @@ class NewData extends Component{
       const servicename = e.target.value
       const {type}= this.state
 
-      if(type==='Services'){
         handleGetTableC(servicename)
         .then((data)=>{
           this.setState(()=>({
@@ -135,15 +121,6 @@ class NewData extends Component{
             servicename: servicename
           }))
         })
-      }else if(type==='Staff'){
-        handleGetTableC('Staff')
-        .then((data)=>{
-          this.setState(()=>({
-            columns: data,
-            servicename: servicename
-          }))
-        })
-      }
   }
 
     handleSubmit=(e)=>{
@@ -169,12 +146,8 @@ class NewData extends Component{
             data.append(column, val)
           }
         })
-        console.log(data)
-        console.log(...data.values())
-        console.log(...data.keys())
-        console.log(data['name'])
 
-        dispatch(handleAddData((type === 'Services'? servicename :type), data, servicename))
+        dispatch(handleAddData(servicename, data))
         .then(()=>{
           this.setState(()=>{
             return{
@@ -228,8 +201,6 @@ class NewData extends Component{
         const {type, servicename, columns, phoneNum, rating, servicesColumn, staffColumn, redir}= this.state
         // const {}= this.props
 
-        console.log(servicesColumn)
-        console.log(staffColumn)
         if(redir){
           return <Redirect to={`/view/${type}/${servicename}/`}/>
         }
@@ -265,6 +236,93 @@ class NewData extends Component{
                   </div>
 
                   {columns.map((column)=>
+                    column === 'licence'? <div key={column} className="form-group row">
+                    <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
+                      <div className="col-sm-10">
+                      <select className="form-control" name={column} id={`colFormLabel${column}`} required>
+                        <option value='eco'>eco</option>
+                        <option value='normal'>normal</option>
+                        </select>
+                      </div>
+                    </div>
+                    :column === 'status'? <div key={column} className="form-group row">
+                    <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
+                      <div className="col-sm-10">
+                      <select className="form-control" name={column} id={`colFormLabel${column}`} required>
+                        <option value='Trainee'>Trainee</option>
+                        <option value='Fully trained'>Fully trained</option>
+                        <option value='Experienced'>Experienced</option>
+                        </select>
+                      </div>
+                    </div>
+                    :(column.toLowerCase() === 'languages' || column.toLowerCase() === 'language')&& <div key={column} className="form-group row">
+                    <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
+                    <div className="col-sm-10">
+                    <Select
+                      closeMenuOnSelect={false}
+                      components={makeAnimated()}
+                      isMulti
+                      options={languagesOptions}
+                      className="form-control" name={column} id={`colFormLabel${column}`} required
+                    />
+                    </div>
+                  </div>)}
+
+                  {/* Contact Details Section for the staff */}
+                  {columns.includes('phone')&&
+                  <div key='contact' className='form-group row'>
+                    <br/>
+                    <h2>Contact Details</h2>
+                    {columns.map((column)=>
+                    column === 'gender'? <div key={column} className="form-group row">
+                    <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
+                      <div className="col-sm-10">
+                      <select className="form-control" name={column} id={`colFormLabel${column}`} required>
+                        <option value='Male'>Male</option>
+                        <option value='Female'>Female</option>
+                        </select>
+                      </div>
+                    </div>
+                    : column === 'name'? <div key={column} className="form-group row">
+                    <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
+                    <div className="col-sm-10">
+                      <input type="text" className="form-control" name={column} id={`colFormLabel${column}`} required/>
+                    </div>
+                  </div>
+                  :column === 'phone'? <div key={column} className="form-group row">
+                  <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
+                    <div className="col-sm-10">
+                    <PhoneInput
+                      international
+                      defaultCountry="EG"
+                      value={phoneNum}
+                      onChange={(e)=> this.updatePhoneNum(e)}
+                      className="form-control" name={column} id={`colFormLabel${column}`} required/>
+                    </div>
+                  </div>
+                  : column === 'email'&& <div key={column} className="form-group row">
+                    <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
+                    <div className="col-sm-10">
+                      <input type="email" className="form-control" name={column} id={`colFormLabel${column}`} required/>
+                    </div>
+                  </div>)}
+                  </div>}
+                  {columns.includes('street')&&
+                  <div key='address' className='form-group row'>
+                    <br/>
+                    <h3>Address Details</h3>
+                    {columns.map((column)=>
+                    (column === 'governorate' || column === 'city' || column === 'street' || column === 'building' || column === 'location')
+                    &&<div key={column} className="form-group row">
+                       <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
+                       <div className="col-sm-10">
+                         <input type="text" className="form-control" name={column} id={`colFormLabel${column}`} required/>
+                       </div>
+                     </div>)}
+                    </div>}
+                  
+
+                  {columns.map((column)=>
                     column === 'image' ?<div key={column} className="form-group custom-file">
                       <input type="file" className="custom-file-input" name={column} id="customFile"/>
                       <label className="custom-file-label" htmlFor="customFile">Choose file</label>
@@ -275,24 +333,7 @@ class NewData extends Component{
                       <div className="col-sm-10">
                         <input type="number" min="18" max="10000" step="1" className="form-control" name={column} id={`colFormLabel${column}`} required/>                      </div>
                     </div>
-                  : column === 'Languages'? <div key={column} className="form-group row">
-                          <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
-                          <div className="col-sm-10">
-                          <Select
-                            closeMenuOnSelect={false}
-                            components={makeAnimated()}
-                            isMulti
-                            options={languagesOptions}
-                            className="form-control" name={column} id={`colFormLabel${column}`} required
-                          />
-                          </div>
-                        </div>
-                  : column === 'email'? <div key={column} className="form-group row">
-                    <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
-                    <div className="col-sm-10">
-                      <input type="email" className="form-control" name={column} id={`colFormLabel${column}`} required/>
-                    </div>
-                  </div>
+                  
                   : column === 'position'? <div key={column} className="form-group row">
                     <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                     <div className="col-sm-10">
@@ -316,19 +357,11 @@ class NewData extends Component{
                     <input type="number" className="form-control" name={column} id={`colFormLabel${column}`} value={rating} style={{display:'none'}}/>
                   </div>
                 </div>
-                :column === 'phone'? <div key={column} className="form-group row">
-                    <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
-                    <div className="col-sm-10">
-                    <PhoneInput
-                      international
-                      defaultCountry="EG"
-                      value={phoneNum}
-                      onChange={(e)=> this.updatePhoneNum(e)}
-                      className="form-control" name={column} id={`colFormLabel${column}`} required/>
-                      {/* <input type="tel" className="form-control" name={column} id={`colFormLabel${column}`} required/> */}
-                    </div>
-                  </div>
-                  :<div key={column} className="form-group row">
+                  
+                  :(column !== 'gender' && column !== 'name' && column !== 'phone' && column !== 'email' && 
+                  column !== 'governorate' && column !== 'city' && column !== 'street' && column !== 'building'
+                  && column !== 'licence' && column !== 'status' && column !== 'language' && column !== 'location')
+                  && <div key={column} className="form-group row">
                     <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                     <div className="col-sm-10">
                       <input type="text" className="form-control" name={column} id={`colFormLabel${column}`} required/>
@@ -349,8 +382,8 @@ function mapStateToProps({categories}, props){
   const {dispatch}= props
   let columns=[];
   if(typeAdd){
-    let column= async () => typeAdd === 'Services' ? await handleGetTableC(servicenameAdd)
-                                                : await handleGetTableC('Staff')
+    let column= async () => await handleGetTableC(servicenameAdd)
+
     columns = column()
   }else{
     typeAdd = ''
@@ -359,8 +392,6 @@ function mapStateToProps({categories}, props){
 
   let services = Object.keys(categories.services).map((key)=> categories.services[key].name)
   let staff = Object.keys(categories.staff).map((key)=> categories.staff[key].name)
-  console.log(services)
-  console.log(columns)
     return{
         type: typeAdd,
         servicename: servicenameAdd,

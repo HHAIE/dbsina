@@ -357,7 +357,15 @@ class NewData extends Component{
                     <input type="number" className="form-control" name={column} id={`colFormLabel${column}`} value={rating} style={{display:'none'}}/>
                   </div>
                 </div>
-                  
+                  :column === 'vaccinated'? <div key={column} className="form-group row">
+                  <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
+                    <div className="col-sm-10">
+                    <select className="form-control" name={column} id={`colFormLabel${column}`} required>
+                      <option value='Yes'>Yes</option>
+                      <option value='No'>No</option>
+                      </select>
+                    </div>
+                  </div>
                   :(column !== 'gender' && column !== 'name' && column !== 'phone' && column !== 'email' && 
                   column !== 'governorate' && column !== 'city' && column !== 'street' && column !== 'building'
                   && column !== 'licence' && column !== 'status' && column !== 'language' && column !== 'location')

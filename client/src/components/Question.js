@@ -197,4 +197,4 @@ function mapStateToProps({authedUser, users, questions, categories, data}, props
     }
 }
 
-export default withRouter(connect(mapStateToProps)(Question))
+export default connect(mapStateToProps)(Question)

@@ -409,4 +409,4 @@ function mapStateToProps({categories}, props){
     }
 }
 
-export default withRouter(connect(mapStateToProps)(NewData))
+export default connect(mapStateToProps)(NewData)

@@ -135,7 +135,7 @@ export function getTableColumns (info) {
   var myHeaders = new Headers();
   myHeaders.append('pragma', 'no-cache');
   myHeaders.append('cache-control', 'no-cache');
-  
+
   var myInit = {
     method: 'GET',
     headers: myHeaders,

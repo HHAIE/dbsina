@@ -178,6 +178,7 @@ function mapStateToProps({authedUser, users, questions, categories, data}, props
   const type= servicename ? props.match.params.type
                           : props.type
     // const question = questions[id]
+    console.log(props.match && props.match.params.servicename)
     let service;
     if(servicename){
       service = (data[servicename] && data[servicename][id]) ? (data[servicename] && data[servicename][id])
@@ -198,4 +199,4 @@ function mapStateToProps({authedUser, users, questions, categories, data}, props
     }
 }
 
-export default connect(mapStateToProps)(Question)
+export default withRouter(connect(mapStateToProps)(Question))

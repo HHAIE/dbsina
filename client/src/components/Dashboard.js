@@ -76,6 +76,7 @@ class Dashboard extends Component{
 
 function mapStateToProps({questions, users, authedUser, categories, data}, props){
   const {type, servicename} = props.match.params
+  console.log(servicename)
   let dataShown=null;
   if (type){
     dataShown = data[servicename] ? data[servicename]

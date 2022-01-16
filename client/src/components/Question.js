@@ -173,7 +173,8 @@ class Question extends Component{
 
 function mapStateToProps({authedUser, users, questions, categories, data}, props){
   const {id} = props
-  const {servicename} = props.match && props.match.params
+  const {servicename} = props.match ? props.match.params
+                                    : undefined
   const type= servicename ? props.match.params.type
                           : props.type
     // const question = questions[id]

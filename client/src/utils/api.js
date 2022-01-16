@@ -69,7 +69,15 @@ export function getTableData (info) {
       table: info
   })
 
-  return fetch(url)
+  var myHeaders = new Headers();
+  myHeaders.append('pragma', 'no-cache');
+  myHeaders.append('cache-control', 'no-cache');
+
+  var myInit = {
+    method: 'GET',
+    headers: myHeaders,
+  };
+  return fetch(url, myInit)
   .then((res) => res.json())
   .then((tableData)=>({...tableData
   }))
@@ -123,8 +131,12 @@ export function getTableColumns (info) {
   url.search = new URLSearchParams({
       table: info
   })
-
-  return fetch(url)
+  
+  var myInit = {
+    method: 'GET',
+    headers: myHeaders,
+  };
+  return fetch(url, myInit)
   .then((res) => res.json())
   .then((tableData) => ( tableColumnsArray(tableData)))
 }

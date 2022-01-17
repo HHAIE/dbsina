@@ -1,5 +1,6 @@
 import { getTableData, getTableColumns, addTableRow, removeTableRow, updateTableRow } from "../utils/api"
 import { showLoading, hideLoading } from "react-redux-loading"
+import { receiveUsers } from "./users"
 
 export const RECEIVE_DATA = 'RECEIVE_DATA'
 export const ADD_DATA = 'ADD_DATA'
@@ -58,10 +59,18 @@ export function handleAddData(table, row, category){
       console.log(row)
 
       dispatch(showLoading())
-      return addTableRow(table, row)
-        .then(()=>getTableData(table, category && category))
-        .then((data)=>dispatch(getData(data, table)))
-        .then(()=> dispatch(hideLoading()))
+      if (table !== "adminUsers"){
+        return addTableRow(table, row)
+          .then(()=>getTableData(table, category && category))
+          .then((data)=>dispatch(getData(data, table)))
+          .then(()=> dispatch(hideLoading()))
+      } else {
+        return addTableRow(table, row)
+          .then(()=>getTableData(table, category && category))
+          .then((data)=>dispatch(receiveUsers(data, table)))
+          .then(()=> dispatch(hideLoading()))
+      }
+      
   }
 }
 

@@ -31,8 +31,7 @@ button.fb {
 }
 
 .signInBox{
-  height: 100vh;
-  display: flex;
-  vertical-align: middle;
-  text-align: center;
+  display: block;
+  width: 100vw;
+  padding-top: 40vh;
 }

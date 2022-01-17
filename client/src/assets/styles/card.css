@@ -77,7 +77,7 @@ body {
 
 .card figure {
     position: relative;
-    z-index: 299;
+    z-index: 1;
     width: 10em;
     height: 10em;
     margin: 0 auto 1em;
@@ -251,11 +251,11 @@ body {
 
 .card--social a.insta:hover {
     color: #fff;
-    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+    background-color: #04aa36 !important;
 }
 
 .codepen a:hover {
-    background-color: #1a1a1a !important;
+    background-color: #2d89df !important;
     color: #fff !important;
 }
 
@@ -293,3 +293,70 @@ body {
   background-color: #157347;
   border-color: #146c43;
 }
+
+@media only screen and (max-width: 600px) {
+    .btn {
+      width: 100%;
+    }
+
+    .card {
+        border-color: #ddd;
+        box-shadow: rgba(10, 145, 145, 0.1) 0 0 5em;
+    }
+    
+    .card figure {
+        transform: scale(0.6) translateY(-1.4em);
+    }
+    
+    .card .card--title {
+        transform: translateY(-5em);
+    }
+    
+    .card .card--desc {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+        transition-duration: 0.4s;
+    }
+    
+    .card .card--desc p {
+        opacity: 1;
+    }
+    
+    .card .card--desc hr {
+        transition-delay: 0.1s;
+        transform: scale(1, 1);
+    }
+    
+    .card .card--social li {
+        opacity: 1;
+        transition-duration: 0.3s;
+        transition-delay: 0.1s;
+        transform: translate(0, 0) rotate(0deg);
+    }
+    
+    .card .card--btn a {
+        background: #fbfbfb;
+        border-color: #ddd;
+    }
+    
+    .card .card--btn .moreInfo {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    
+    .card .card--btn .fullProf {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .card--social a.insta {
+        color: #fff;
+        background-color: #04aa36 !important;
+    }
+    
+    .codepen a {
+        background-color: #2d89df !important;
+        color: #fff !important;
+    }
+  }

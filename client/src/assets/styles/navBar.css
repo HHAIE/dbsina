@@ -60,3 +60,45 @@ margin:0 auto 0 auto!important;
 height: 70px;
 }
 
+#bottomNav {
+	padding:10px;
+  display: none;
+  background-color: #fefefe;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 10vh;
+  z-index: 5;
+  margin: 0;
+  box-shadow: 0 0 0.5em rgb(50 50 50 / 50%);
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+#bottomNav div{
+  width: auto;
+}
+
+#bottomNav a {
+    font-size:24pt;
+    color:#444;
+    text-decoration:none;
+}
+#bottomNav a:hover {
+    color:#222;
+}
+
+@media (max-width: 992px){
+  #bottomNav {
+    padding:10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  ul.navbar-nav{
+    display: none;
+  }
+  .nav-user{
+    margin:auto;
+  }
+}

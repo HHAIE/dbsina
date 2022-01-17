@@ -12,8 +12,37 @@ function Nav(props){
         dispatch(setAuthedUser(null))
     }
     return(
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <div className="container-fluid">
+        <nav className="">
+            <div className="navbar navbar-expand-lg navbar-light bg-light container-fluid">
+                <ul className="navbar-nav m-auto text-center fs-3 fw-bold">
+                    <li className="nav-item">
+                        <NavLink to='/' exact activeClassName='active' className="nav-link">
+                            Home
+                        </NavLink>
+                    </li>
+                </ul>
+                <div className="nav-user">
+                        <div className='nav-avatar'>
+                            <img
+                            src={user && user.picture}
+                            alt={`Avatar of ${user && user.name}`}
+                            className='avatar'
+                            />
+                            <div>
+                                {user && user.name}
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="col-xs-12 navbar-inverse navbar-fixed-bottom">
+                <div class="row" id="bottomNav">
+                    <div class="col-xs-4 text-center"><a href="#"><i class="fa fa-home"></i></a></div>
+                    <div class="col-xs-4 text-center"><a href="#"><i class="fa fa-plus-circle"></i></a></div>
+                    <div class="col-xs-4 text-center"><a href="#"><i class="fa fa-cog"></i></a></div>
+                </div>
+            </div>
+        </nav>
+    )
           {/* <a className="navbar-brand" href="#">
                 <!--Logo png and style-->
 
@@ -24,25 +53,21 @@ function Nav(props){
             </a> */}
 
             {/* <!--Collapsable menue code--> */}
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggleMobileMenu"
+            {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggleMobileMenu"
              aria-controls="toggleMobileMenu" aria-expanded="false" aria-label="Toggle navigation">
 
                 <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="collapse navbar-collapse" id="toggleMobileMenu">
+            <div className="collapse navbar-collapse" id="toggleMobileMenu"> */}
 
                 {/* <!--Navigation bar items--> */}
-                <ul className="navbar-nav m-auto text-center fs-3 fw-bold">
+                
                     {/* <li className="nav-item">
                         <a className="nav-link btn btn-block btn-social btn-twitter">
                             <i className="fa fa-twitter" aria-hidden="true"></i> <span>Sign in</span>
                           </a>
                     </li> */}
-                    <li className="nav-item">
-                        <NavLink to='/' exact activeClassName='active' className="nav-link">
-                            Home
-                        </NavLink>
-                    </li>
+                    
                     {/* <li className="nav-item">
                         <NavLink to='/add' exact activeClassName='active' className="nav-link">
                             New Question
@@ -56,20 +81,7 @@ function Nav(props){
                         {/* <NavLink to='/' exact activeClassName='active' className="nav-link" onClick={signOut}>
                             Sign Out
                         </NavLink> */}
-                </ul>
-                <div className="nav-user">
-                        <div className='nav-avatar'>
-                            <img
-                            src={user && user.picture}
-                            alt={`Avatar of ${user && user.name}`}
-                            className='avatar'
-                            />
-                            <div>
-                                {user && user.name}
-                            </div>
-                        </div>
-                  </div>
-            </div>
+                
 {/*
 
           <ul>
@@ -104,9 +116,6 @@ function Nav(props){
 
             </ul> */}
 
-          </div>
-        </nav>
-    )
 
 }
 

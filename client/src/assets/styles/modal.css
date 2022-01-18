@@ -1,6 +1,6 @@
 /*-----------------------------*/
 /* The Modal (background) */
-.modal {
+.modalO {
     display: none;
     position: fixed;
     z-index: 2;
@@ -25,7 +25,7 @@
     color: #555;
     display: flex;
     width: 100%;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .modal-content li span{
@@ -65,4 +65,12 @@
     modal-content {
         width: 100%;
    }
+}
+
+
+/* Fixing semantic UI */
+.modal{
+    top:auto;
+    left: auto;
+    height: auto;
 }

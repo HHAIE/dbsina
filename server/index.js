@@ -69,6 +69,10 @@ app.get("/getTable", (req, res) => {
         }
     });
 })
+
+if (module.hot) {
+  module.hot.accept();
+}
   
 app.get("/getTableColumn", (req, res) => {
     const {table} =req.query

@@ -8,6 +8,7 @@ import { handleGetData, handleRemoveData } from '../actions/data'
 // import { handleToggleQuestion } from '../actions/questions'
 import { Link, withRouter, Redirect } from 'react-router-dom'
 import {truncateText, capitalizeFirstLetter} from '../utils/helpers'
+import { Button, Confirm } from 'semantic-ui-react'
 
 class Question extends Component{
     // handleLike=(e)=>{
@@ -32,7 +33,8 @@ class Question extends Component{
     state={
       redirect: false,
       redirectRemove: false,
-      redirectAdd: false
+      redirectAdd: false,
+      open: false
     }
     handleAddLink = () => {
       // const {service, type} = this.props;
@@ -71,22 +73,39 @@ class Question extends Component{
     }
 
     //Functions to enlarge the media when clicked
-    modalOpen=()=>{
+    modalOpen=(id)=>{
       //Variables for the modal Element
-      let modal = document.getElementById("myModal");
+      let modalName = 'myModal'+id;
+      let modal = document.getElementById(modalName);
       modal.style.display = "block";
     }
     // When the user clicks on <span> (x), close the modal
-     modalClose=()=> {
+     modalClose=(id)=> {
       //Variables for the modal Element
-      let modal = document.getElementById("myModal");
+      let modalName = 'myModal'+id;
+      let modal = document.getElementById(modalName);
 
       modal.style.display = "none";
     }
 
+    show = (e) => {
+      e.stopPropagation();
+      this.setState({ open: true })
+    }
+    
+    handleConfirm = (e, servicename, id) => {
+      e.stopPropagation();
+      this.handleRemoveLink(servicename, id)
+      this.setState({ open: false })
+    }
+    handleCancel = (e) => {
+      e.stopPropagation();
+      this.setState({ open: false })
+    }
+
     render(){
         const {category, service, type, servicename}= this.props
-        const {redirect, redirectAdd, redirectRemove}= this.state;
+        const {redirect, redirectAdd, redirectRemove, open }= this.state;
         if(service === null){
             return <p>This Question doesn't exist</p>
         }
@@ -111,7 +130,7 @@ class Question extends Component{
             {/* <Link onClick={type==='Services' ?(()=>this.handleLink(service.name))
                                             : (()=>this.handleLink("Staff", service.name))}
                   to={service !== null && `/${type}/${service.name}`} > */}
-              <div className='card'onClick={category ?(()=>this.handleLink(service.name)) : this.modalOpen}>
+              <div className='card'onClick={category ?(()=>this.handleLink(service.name)) : (()=>this.modalOpen(service && service.id))}>
                 <div className='card-liner'>
                   <figure>
                     <img src={service && service.image !== null && ('image' in service) 
@@ -137,7 +156,7 @@ class Question extends Component{
                   </div>}
                   <div className='card--title'>
                     <h3>{service && service.name} &nbsp;
-                      {service && service.gender && <i class={`fa ${service.gender === 'Male' ? 'fa-male' : 'fa-female'}`} aria-hidden="true"></i>}
+                      {service && service.gender && <i className={`fa ${service.gender === 'Male' ? 'fa-male' : 'fa-female'}`} aria-hidden="true"></i>}
                     </h3>
                     <p>{category && type}</p>
                   </div>
@@ -159,12 +178,17 @@ class Question extends Component{
                       </span>
                     </a>
                   </div> */}
-                  {!category && <button className="btn btn-danger deleteBtn" onClick={(()=>this.handleRemoveLink(servicename, service.id))}>Delete</button>}
+                  {!category && <div><button className="btn btn-danger deleteBtn" onClick={((e)=>this.show(e))}>Delete</button>
+                  <Confirm
+                    open={open}
+                    onCancel={((e)=>this.handleCancel(e))}
+                    onConfirm={((e)=>this.handleConfirm(e, servicename, service.id))}
+                  /></div>}
                   {category && <button className="btn btn-success addBtn" onClick={(this.handleAddLink)}>Add</button>}
                 </div>
               </div>
               {!category &&
-              <div id="myModal" className="modal">
+              <div id={`myModal${service && service.id}`} className="modalO">
 
                 {/* <!-- Modal Content --> */}
                 <img className="modal-content" id="img01" src={service && service.image !== null && ('image' in service) 
@@ -179,7 +203,7 @@ class Question extends Component{
                 {/* <iframe class="modal-content" id="vid01" width="100%" height="75%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
     
                 {/* <!-- The Close Button of the Modal --> */}
-                <span onClick={this.modalClose} className="close">&times;</span>
+                <span onClick={(()=>this.modalClose(service && service.id))} className="close">&times;</span>
               </div>}
             {/* </Link> */}
           </div>

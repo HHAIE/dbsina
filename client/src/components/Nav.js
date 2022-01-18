@@ -34,11 +34,11 @@ function Nav(props){
                         </div>
                 </div>
             </div>
-            <div class="col-xs-12 navbar-inverse navbar-fixed-bottom">
-                <div class="row" id="bottomNav">
-                    <div class="col-xs-4 text-center"><a href="#"><i class="fa fa-home"></i></a></div>
-                    <div class="col-xs-4 text-center"><a href="#"><i class="fa fa-plus-circle"></i></a></div>
-                    <div class="col-xs-4 text-center"><a href="#"><i class="fa fa-cog"></i></a></div>
+            <div className="col-xs-12 navbar-inverse navbar-fixed-bottom">
+                <div className="row" id="bottomNav">
+                    <div className="col-xs-4 text-center"><a href="#"><i className="fa fa-home"></i></a></div>
+                    <div className="col-xs-4 text-center"><a href="#"><i className="fa fa-plus-circle"></i></a></div>
+                    <div className="col-xs-4 text-center"><a href="#"><i className="fa fa-cog"></i></a></div>
                 </div>
             </div>
         </nav>

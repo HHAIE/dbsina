@@ -294,7 +294,7 @@ body {
   border-color: #146c43;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 990px) {
     .btn {
       width: 100%;
     }
@@ -304,12 +304,13 @@ body {
         box-shadow: rgba(10, 145, 145, 0.1) 0 0 5em;
     }
     
-    .card figure {
-        transform: scale(0.6) translateY(-1.4em);
+    .card .card--social{
+        font-size: 1.5em;
+        top: 3em;
     }
     
     .card .card--title {
-        transform: translateY(-5em);
+        transform: translateY(1em);
     }
     
     .card .card--desc {
@@ -359,4 +360,8 @@ body {
         background-color: #2d89df !important;
         color: #fff !important;
     }
+
+    .wrap {
+        min-width: 90%;
+   }
   }

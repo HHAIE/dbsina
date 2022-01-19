@@ -5,4 +5,14 @@
 
 .form-group{
   margin-bottom: 3%;
+  font-size: 1.2em;
+}
+
+.form-group > .form-group{
+  margin-bottom: 3%;
+  font-size: 1em;
+}
+
+.form-group > .form-group > .col-form-label{
+  padding: 0;
 }

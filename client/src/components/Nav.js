@@ -20,6 +20,11 @@ function Nav(props){
                             Home
                         </NavLink>
                     </li>
+                    <li className="nav-item">
+                        <NavLink to='/add/Staff/Guides' exact activeClassName='active' className="nav-link">
+                            Add item
+                        </NavLink>
+                    </li>
                 </ul>
                 <div className="nav-user">
                         <div className='nav-avatar'>
@@ -36,8 +41,12 @@ function Nav(props){
             </div>
             <div className="col-xs-12 navbar-inverse navbar-fixed-bottom">
                 <div className="row" id="bottomNav">
-                    <div className="col-xs-4 text-center"><a href="#"><i className="fa fa-home"></i></a></div>
-                    <div className="col-xs-4 text-center"><a href="#"><i className="fa fa-plus-circle"></i></a></div>
+                    <div className="col-xs-4 text-center"><NavLink to='/' exact activeClassName='active'>
+                            <i className="fa fa-home"></i>
+                        </NavLink></div>
+                    <div className="col-xs-4 text-center"><NavLink to='/add/Staff/Guides' exact activeClassName='active'>
+                            <i className="fa fa-plus-circle"></i>
+                        </NavLink></div>
                     <div className="col-xs-4 text-center"><a href="#"><i className="fa fa-cog"></i></a></div>
                 </div>
             </div>

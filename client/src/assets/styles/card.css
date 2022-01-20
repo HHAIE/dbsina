@@ -285,19 +285,31 @@ body {
 }
 
 .deleteBtn {
-  background-color: #dc3545;
-  border-color: #dc3545;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    width: 45%;
+}
+
+.editBtn{
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 45%;
 }
 
 .addBtn{
   background-color: #157347;
   border-color: #146c43;
+  width: 100%;
 }
 
 @media only screen and (max-width: 990px) {
-    .btn {
+    /* .btn {
       width: 100%;
-    }
+    } */
 
     .card {
         border-color: #ddd;
@@ -318,6 +330,7 @@ body {
         opacity: 1;
         transform: translateY(0);
         transition-duration: 0.4s;
+        font-size: 1.35em;
     }
     
     .card .card--desc p {

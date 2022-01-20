@@ -209,15 +209,18 @@ class NewData extends Component{
             <div>
                 <h3 className='center'>Add New Entity</h3>
                 <form className="new-question needs-validation" onSubmit={(e)=>this.handleSubmit(e)} noValidate>
-                  <div className="form-group">
+                  <div className="form-group row">
                     <label htmlFor="FormControlSelect1">Category</label>
+                    <div className="col-sm-10">
                     <select className="form-control" id="FormControlSelect1" name='table' onChange={(e)=>this.handleTypeChange(e)}>
                     <option value='Services'>Services</option>
                     <option value='Staff'>Staff</option>
                     </select>
+                    </div>
                   </div>
-                  <div className="form-group">
+                  <div className="form-group row">
                     <label htmlFor="FormControlSelect2"> Subcategory </label>
+                    <div className="col-sm-10">
                     {type==='Staff' &&<select className="form-control" id="FormControlSelect2" onChange={(e)=>this.handleServiceChange(e)}>
                       {staffColumn.map((s)=>
                         <option key={s} value={s}>{`${s}`}</option>
@@ -233,6 +236,7 @@ class NewData extends Component{
                       <option value='Restaurants'>Restaurants</option>
                       <option value='Transport'>Transport</option> */}
                     </select>}
+                    </div>
                   </div>
 
                   {columns.map((column)=>
@@ -323,9 +327,11 @@ class NewData extends Component{
                   
 
                   {columns.map((column)=>
-                    column === 'image' ?<div key={column} className="form-group custom-file">
+                    column === 'image' ?<div key={column} className="form-group custom-file row">
+                      <div className="col-sm-10">
                       <input type="file" className="custom-file-input" name={column} id="customFile"/>
-                      <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                      </div>
+                      {/* <label className="custom-file-label" htmlFor="customFile">Choose file</label> */}
                     </div>
                   : column === 'id' ? <br/>
                   : (column === 'age'|| column.includes('price')) ? <div key={column} className="form-group row">

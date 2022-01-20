@@ -1,9 +1,12 @@
 .submitBtn{
   background-color: #0d6efd;
   border-color: #0d6efd;
+  margin: 5% auto;
+  width: 90%;
 }
 
 .form-group{
+  margin: 0;
   margin-bottom: 3%;
   font-size: 1.2em;
 }
@@ -11,8 +14,18 @@
 .form-group > .form-group{
   margin-bottom: 3%;
   font-size: 1em;
+  padding: 0;
 }
 
 .form-group > .form-group > .col-form-label{
   padding: 0;
+}
+
+.form-control{
+  padding-right: calc(var(--bs-gutter-x) * .5);
+  padding-left: calc(var(--bs-gutter-x) * .5);
+}
+
+.col-sm-10 {
+  margin: auto;
 }

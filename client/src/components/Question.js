@@ -178,7 +178,8 @@ class Question extends Component{
                       </span>
                     </a>
                   </div> */}
-                  {!category && <div><button className="btn btn-danger deleteBtn" onClick={((e)=>this.show(e))}>Delete</button>
+                  {!category && <div><button className="btn btn-primary editBtn" onClick={(this.handleAddLink)}>Edit</button>
+                  <button className="btn btn-danger deleteBtn" onClick={((e)=>this.show(e))}>Delete</button>
                   <Confirm
                     open={open}
                     onCancel={((e)=>this.handleCancel(e))}

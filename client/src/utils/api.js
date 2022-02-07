@@ -1,6 +1,6 @@
 import {idToList, tableColumnsArray} from './helpers'
-let fetchingURL = 'https://localhost:3001/'
-// let fetchingURL = 'https://database.sinatoursegypt.com/'
+// let fetchingURL = 'https://localhost:3001/'
+let fetchingURL = 'https://database.sinatoursegypt.com/'
 
 const categories= (cat1, cat2)=>{
   let output={}

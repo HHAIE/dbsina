@@ -161,7 +161,7 @@ app.get("/removeTableRow", (req, res) => {
     });
 })
   
-app.get("/updateTableRow", (req, res)=> {
+app.post("/updateTableRow", (req, res)=> {
   let busboy = new Busboy({ headers: req.headers });
     let keys = [];
     let values = [];

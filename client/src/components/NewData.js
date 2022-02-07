@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { Redirect, withRouter } from 'react-router-dom'
-import { handleGetTableC, languagesOptions, handleAddData } from '../actions/data'
+import { handleGetTableC, languagesOptions, handleAddData, handleUpdateData } from '../actions/data'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 import PhoneInput, {isValidPhoneNumber} from 'react-phone-number-input'
@@ -25,8 +25,8 @@ class NewData extends Component{
         // toHome: false
     }
     componentDidMount(){
-      let {type, servicename, services, staff}= this.props
-      console.log(services)
+      let {action, type, servicename, services, service, staff}= this.props
+      console.log(Object.keys(service))
       console.log(staff)
       var forms = document.getElementsByClassName('needs-validation');
       // Loop over them and prevent submission
@@ -39,6 +39,16 @@ class NewData extends Component{
           form.classList.add('was-validated');
         }, false);
       });
+
+      if (action==="edit"){
+        return this.setState(()=>({
+          type: type,
+          servicename: servicename,
+          staffColumn: staff,
+          servicesColumn: services,
+          columns: Object.keys(service)
+        }))
+      }
 
         return handleGetTableC(servicename)
         .then((data)=>{
@@ -54,7 +64,7 @@ class NewData extends Component{
     }
 
     componentDidUpdate(){
-      const {type, servicename, phoneNum, redir}= this.state
+      const {action, type, servicename, phoneNum, redir}= this.state
       if(!redir){
         let inputs = document.getElementsByTagName('input')
         console.log(inputs)
@@ -64,6 +74,7 @@ class NewData extends Component{
         }
       }
 
+      if (action==="add"){
         let mySelect = document.getElementById('FormControlSelect1');
 
         for(let i, j = 0; i = mySelect.options[j]; j++) {
@@ -83,10 +94,10 @@ class NewData extends Component{
             }
           }
         }
-
       }
-
+      }
     }
+
     handleTypeChange=(e)=>{
         const type = e.target.value
 
@@ -110,6 +121,7 @@ class NewData extends Component{
           })
         }
     }
+
     handleServiceChange=(e)=>{
       const servicename = e.target.value
       const {type}= this.state
@@ -125,7 +137,7 @@ class NewData extends Component{
 
     handleSubmit=(e)=>{
       const {columns, type, servicename} = this.state
-      const {dispatch} = this.props
+      const {dispatch, action, rowId} = this.props
 
         e.preventDefault()
         let joinArray = (arr) => {
@@ -147,14 +159,26 @@ class NewData extends Component{
           }
         })
 
-        dispatch(handleAddData(servicename, data))
-        .then(()=>{
-          this.setState(()=>{
-            return{
-              redir: true,
-            }
-        })
-        })
+        if (action==="add"){
+          dispatch(handleAddData(servicename, data))
+          .then(()=>{
+            this.setState(()=>{
+              return{
+                redir: true,
+              }
+          })
+          })
+        } else if (action==="edit"){
+          dispatch(handleUpdateData(servicename, data, rowId))
+          .then(()=>{
+            this.setState(()=>{
+              return{
+                redir: true,
+              }
+          })
+          })
+        }
+        
 
         // const {optionOne, optionTwo, toHome}= this.state
         // const {dispatch} = this.props
@@ -198,7 +222,9 @@ class NewData extends Component{
     }
 
     render(){
-        const {type, servicename, columns, phoneNum, rating, servicesColumn, staffColumn, redir}= this.state
+        const {type, servicename, columns, servicesColumn, staffColumn, redir}= this.state
+        const {action, service}= this.props
+        let {phoneNum, rating}= this.state
         // const {}= this.props
 
         if(redir){
@@ -209,7 +235,7 @@ class NewData extends Component{
             <div>
                 <h3 className='center'>Add New Entity</h3>
                 <form className="new-question needs-validation" onSubmit={(e)=>this.handleSubmit(e)} noValidate>
-                  <div className="form-group row">
+                  {action==="add" && <div className="form-group row">
                     <label htmlFor="FormControlSelect1">Category</label>
                     <div className="col-sm-10">
                     <select className="form-control" id="FormControlSelect1" name='table' onChange={(e)=>this.handleTypeChange(e)}>
@@ -217,8 +243,8 @@ class NewData extends Component{
                     <option value='Staff'>Staff</option>
                     </select>
                     </div>
-                  </div>
-                  <div className="form-group row">
+                  </div>}
+                  {action==="add" && <div className="form-group row">
                     <label htmlFor="FormControlSelect2"> Subcategory </label>
                     <div className="col-sm-10">
                     {type==='Staff' &&<select className="form-control" id="FormControlSelect2" onChange={(e)=>this.handleServiceChange(e)}>
@@ -237,13 +263,13 @@ class NewData extends Component{
                       <option value='Transport'>Transport</option> */}
                     </select>}
                     </div>
-                  </div>
+                  </div>}
 
                   {columns.map((column)=>
                     column === 'licence'? <div key={column} className="form-group row">
                     <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                       <div className="col-sm-10">
-                      <select className="form-control" name={column} id={`colFormLabel${column}`} required>
+                      <select className="form-control" name={column} id={`colFormLabel${column}`} defaultValue={action==="edit" && service[column]} required>
                         <option value='eco'>eco</option>
                         <option value='normal'>normal</option>
                         </select>
@@ -252,7 +278,7 @@ class NewData extends Component{
                     :column === 'status'? <div key={column} className="form-group row">
                     <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                       <div className="col-sm-10">
-                      <select className="form-control" name={column} id={`colFormLabel${column}`} required>
+                      <select className="form-control" name={column} id={`colFormLabel${column}`} defaultValue={action==="edit" && service[column]} required>
                         <option value='Trainee'>Trainee</option>
                         <option value='Fully trained'>Fully trained</option>
                         <option value='Experienced'>Experienced</option>
@@ -263,6 +289,7 @@ class NewData extends Component{
                     <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                     <div className="col-sm-10">
                     <Select
+                      value={action==="edit" && service[column].split(",").map((lang)=> {return {value:lang, label:lang}})}
                       closeMenuOnSelect={false}
                       components={makeAnimated()}
                       isMulti
@@ -281,7 +308,7 @@ class NewData extends Component{
                     column === 'gender'? <div key={column} className="form-group row">
                     <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                       <div className="col-sm-10">
-                      <select className="form-control" name={column} id={`colFormLabel${column}`} required>
+                      <select className="form-control" name={column} id={`colFormLabel${column}`} defaultValue={action==="edit" && service[column]} required>
                         <option value='Male'>Male</option>
                         <option value='Female'>Female</option>
                         </select>
@@ -290,12 +317,13 @@ class NewData extends Component{
                     : column === 'name'? <div key={column} className="form-group row">
                     <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                     <div className="col-sm-10">
-                      <input type="text" className="form-control" name={column} id={`colFormLabel${column}`} required/>
+                      <input type="text" className="form-control" name={column} id={`colFormLabel${column}`} defaultValue={action==="edit" && service[column]} required/>
                     </div>
                   </div>
                   :column === 'phone'? <div key={column} className="form-group row">
                   <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                     <div className="col-sm-10">
+                      {action==="edit" ? phoneNum=service[column]: phoneNum=phoneNum}
                     <PhoneInput
                       international
                       defaultCountry="EG"
@@ -307,7 +335,7 @@ class NewData extends Component{
                   : column === 'email'&& <div key={column} className="form-group row">
                     <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                     <div className="col-sm-10">
-                      <input type="email" className="form-control" name={column} id={`colFormLabel${column}`} required/>
+                      <input type="email" className="form-control" name={column} id={`colFormLabel${column}`} defaultValue={action==="edit" && service[column]} required/>
                     </div>
                   </div>)}
                   </div>}
@@ -320,7 +348,7 @@ class NewData extends Component{
                     &&<div key={column} className="form-group row">
                        <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                        <div className="col-sm-10">
-                         <input type="text" className="form-control" name={column} id={`colFormLabel${column}`} required/>
+                         <input type="text" className="form-control" name={column} id={`colFormLabel${column}`} defaultValue={action==="edit" && service[column]} required/>
                        </div>
                      </div>)}
                     </div>}
@@ -337,13 +365,13 @@ class NewData extends Component{
                   : (column === 'age'|| column.includes('price')) ? <div key={column} className="form-group row">
                       <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                       <div className="col-sm-10">
-                        <input type="number" min="18" max="10000" step="1" className="form-control" name={column} id={`colFormLabel${column}`} required/>                      </div>
+                        <input type="number" min="18" max="10000" step="1" className="form-control" name={column} id={`colFormLabel${column}`} defaultValue={action==="edit" && service[column]} required/>                      </div>
                     </div>
                   
                   : column === 'position'? <div key={column} className="form-group row">
                     <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                     <div className="col-sm-10">
-                    <select className="form-control" name={column} id={`colFormLabel${column}`} >
+                    <select className="form-control" name={column} id={`colFormLabel${column}`} defaultValue={action==="edit" && service[column]}>
                       {staffColumn.map((s)=>
                         <option key={s} value={s}>{`${s}`}</option>
                       )}
@@ -354,6 +382,7 @@ class NewData extends Component{
                 :column.toLowerCase().includes('rating')? <div key={column} className="form-group row">
                   <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                   <div className="col-sm-10">
+                  {action==="edit" ? rating=service[column]: rating=rating}
                   <ReactStars {...{size: 30,
                       count: 5,
                       value: rating,
@@ -366,7 +395,7 @@ class NewData extends Component{
                   :column === 'vaccinated'? <div key={column} className="form-group row">
                   <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                     <div className="col-sm-10">
-                    <select className="form-control" name={column} id={`colFormLabel${column}`} required>
+                    <select className="form-control" name={column} id={`colFormLabel${column}`} defaultValue={action==="edit" && service[column]} required>
                       <option value='Yes'>Yes</option>
                       <option value='No'>No</option>
                       </select>
@@ -378,7 +407,7 @@ class NewData extends Component{
                   && <div key={column} className="form-group row">
                     <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                     <div className="col-sm-10">
-                      <input type="text" className="form-control" name={column} id={`colFormLabel${column}`} required/>
+                      <input type="text" className="form-control" name={column} id={`colFormLabel${column}`} defaultValue={action==="edit" && service[column]} required/>
                     </div>
                   </div>
                   )}
@@ -391,28 +420,41 @@ class NewData extends Component{
 }
 
 
-function mapStateToProps({categories}, props){
-  let {typeAdd, servicenameAdd} = props.match.params
+function mapStateToProps({categories, data}, props){
+  let {action, typeAdd, servicenameAdd} = props.match.params
+  let {rowId} = action === "edit" && props.match.params
   const {dispatch}= props
+  let services, staff;
   let columns=[];
-  if(typeAdd){
-    let column= async () => await handleGetTableC(servicenameAdd)
+  // if(typeAdd){
+  //   let column= async () => await handleGetTableC(servicenameAdd)
 
-    columns = column()
-  }else{
-    typeAdd = ''
+  //   columns = column()
+  // }else{
+  //   typeAdd = ''
+  // }
+
+  let service;
+  if(action ==="edit"){
+    service = Object.values(data[servicenameAdd]).filter((serv)=> serv['id']==rowId)
+    service = service[0]
+    console.log(service['vaccinated'])
   }
 
-
-  let services = Object.keys(categories.services).map((key)=> categories.services[key].name)
-  let staff = Object.keys(categories.staff).map((key)=> categories.staff[key].name)
-    return{
-        type: typeAdd,
-        servicename: servicenameAdd,
-        services:services,
-        staff:staff,
-        dispatch: dispatch
-    }
+  if (action ==="add"){
+    services = Object.keys(categories.services).map((key)=> categories.services[key].name)
+    staff = Object.keys(categories.staff).map((key)=> categories.staff[key].name)
+  }
+  return{
+      type: typeAdd,
+      servicename: servicenameAdd,
+      action: action,
+      service:action ==="edit" && service,
+      rowId:action ==="edit" && rowId,
+      services:action ==="add" && services,
+      staff:action ==="add" && staff,
+      dispatch: dispatch
+  }
 }
 
 export default connect(mapStateToProps)(NewData)

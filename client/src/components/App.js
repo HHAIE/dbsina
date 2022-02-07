@@ -24,7 +24,7 @@ class App extends Component {
             :<div>
               <Nav/>
               <Route path='/' exact component={Dashboard}/>
-              <Route path='/add/:typeAdd/:servicenameAdd' component={NewData}/>
+              <Route path='/new_data/:action/:typeAdd/:servicenameAdd/:rowId' component={NewData}/>
               <Route path='/view/:type/:servicename' component={Dashboard}/>
               <Route path='/leaderboard' component={Leaderboard}/>
               {/* <Route path='/signin' component={SignIn}/> */}

@@ -34,6 +34,7 @@ class Question extends Component{
       redirect: false,
       redirectRemove: false,
       redirectAdd: false,
+      redirectEdit: false,
       open: false
     }
     handleAddLink = () => {
@@ -45,6 +46,18 @@ class Question extends Component{
         }
       })
     }
+
+    handleEditLink = () => {
+      // const {service, type} = this.props;
+
+      this.setState(()=>{
+        return{
+          redirectEdit: true
+        }
+      })
+    }
+
+
     handleLink = (table, category) => {
       const {dispatch, service, type} = this.props;
 
@@ -105,13 +118,17 @@ class Question extends Component{
 
     render(){
         const {category, service, type, servicename}= this.props
-        const {redirect, redirectAdd, redirectRemove, open }= this.state;
+        const {redirect, redirectAdd, redirectEdit, redirectRemove, open }= this.state;
         if(service === null){
             return <p>This Question doesn't exist</p>
         }
         else if(redirectAdd){
-          return <Redirect to={type==='Services' ? `/add/Services/${service.name}`
-          : `/add/Staff/${service.name}`}/>
+          return <Redirect to={type==='Services' ? `/new_data/add/Services/${service.name}`
+          : `/new_data/add/Staff/${service.name}`}/>
+        }
+        else if(redirectEdit){
+          return <Redirect to={type==='Services' ? `/new_data/edit/Services/${servicename}/${service.id}`
+          : `/new_data/edit/Staff/${servicename}/${service.id}`}/>
         }
         else if(redirectRemove){
           return <Redirect to={`/view/${type}/${servicename}`}/>
@@ -178,7 +195,7 @@ class Question extends Component{
                       </span>
                     </a>
                   </div> */}
-                  {!category && <div><button className="btn btn-primary editBtn" onClick={(this.handleAddLink)}>Edit</button>
+                  {!category && <div><button className="btn btn-primary editBtn" onClick={(this.handleEditLink)}>Edit</button>
                   <button className="btn btn-danger deleteBtn" onClick={((e)=>this.show(e))}>Delete</button>
                   <Confirm
                     open={open}

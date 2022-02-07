@@ -93,7 +93,6 @@ app.get("/getTableColumn", (req, res) => {
 })
   
 app.post("/addTableRow", (req, res) => {
-    // console.log(req.body)
     let busboy = new Busboy({ headers: req.headers });
     let keys = [];
     let values = [];
@@ -102,17 +101,6 @@ app.post("/addTableRow", (req, res) => {
     var chunks = [];
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
       console.log('File [' + fieldname + ']: filename: ' + filename);
-      // file.pipe(base64.encode()).pipe(output);
-      //   var chunks = [];
-      //   output.on('data', function(data) {
-      //     chunks.push(data);
-      // });
-      // output.on('end', function(){
-      //   base64data.push(Buffer.concat(chunks));
-      //   console.log('File [' + fieldname + '] Finished');
-      //   keys.push(fieldname)
-      //   values.push(base64data)
-      // });
       file.on('data', function(data) {
         console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
         chunks.push(data);
@@ -154,60 +142,8 @@ app.post("/addTableRow", (req, res) => {
         res.end();
         }
     });
-      // console.log('Done parsing form!');
-      // res.writeHead(303, { Connection: 'close', Location: '/' });
-      // res.end();
     });
     req.pipe(busboy);
-    // req.pipe(req.busboy);
-    // req.busboy.on('image', function (fieldname, file, filename) {
-    //     console.log("Uploading: " + filename); })
-    //     req.files.complete(function(err, fields, files) {
-    //         if (err) { next(err); }
-    //         else {
-    //         console.log(fields);
-    //         console.log('---------------');
-    //         console.log(files);
-    //         res.redirect(req.url);
-    //         }
-    //         });
-    // console.log(req.files)
-    // const {table, row} =req.body
-    // let keys = Object.keys(row);
-    // let kMarks=''
-    // for(let key of keys){
-    // kMarks+='? , ';
-    // }
-    // let values = keys.map((key)=> row[key]);
-    // let qMarks=''
-    // for(let value of values){
-    // qMarks+='? , ';
-    // }
-    
-    // // let values = [value];
-    // let keysF =[]
-    // for(let key of keys){
-    // let val = '"'+key+'"'
-    // keysF.push(val.replace(/['"]+/g, ""))
-    // }
-    // let sqlquery = `INSERT INTO ${table} ( ${kMarks.substring(0, kMarks.length - 2)}) VALUES ( ${qMarks.substring(0, qMarks.length - 2)});`;
-
-    // let all = keysF.concat(values)
-    // let query = db.query(sqlquery, all).sql
-    // let queryStart = query.substring(0, query.indexOf("VALUES")).replace(/['"]+/g, '')
-    // let queryFinal = queryStart + query.substring(query.indexOf("VALUES"))
-
-    // console.log(queryFinal)
-    // return db.query(queryFinal, (err, result) => {
-    //     if (err || result.length == 0) {
-    //         // display a message when the keyword was not found in the database
-    //         console.log("Data not successfully")
-    //         return console.error(err.message);
-    //     } else {
-    //     console.log("Data added successfully")
-    //     res.send("Data added successfully")
-    //     }
-    // })
 })
   
 app.get("/removeTableRow", (req, res) => {
@@ -226,30 +162,83 @@ app.get("/removeTableRow", (req, res) => {
 })
   
 app.get("/updateTableRow", (req, res)=> {
-    const {table, row, rowId} =req.query
-    let keys = Object.keys(row);
-    let stringArray = keys.map((key)=> `${key} = ${row[key]}`);
-    let string = '';
-    stringArray.forEach((str)=>{string+=str})
-    let sqlquery = `UPDATE ${table} SET ${string} WHERE id = ${rowId}`;
-    return db.query(sqlquery, (err, result) => {
+  let busboy = new Busboy({ headers: req.headers });
+    let keys = [];
+    let values = [];
+    let table = '';
+    let base64data = [];
+    var chunks = [];
+    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+      console.log('File [' + fieldname + ']: filename: ' + filename);
+      file.on('data', function(data) {
+        console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+        chunks.push(data);
+      });
+      file.on('end', function() {
+        base64data.push(Buffer.concat(chunks));
+        console.log('File [' + fieldname + '] Finished');
+        keys.push(fieldname)
+        values.push(base64data)
+      });
+    });
+    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+      console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+      if (fieldname !== 'table' && fieldname !== 'id'){
+        keys.push(fieldname)
+        values.push(val)
+      }
+      
+      table = fieldname === 'table' && val
+      rowId = fieldname === 'id' && val
+      
+    });
+    busboy.on('finish', function() {
+      console.log('Done parsing form!');
+      console.log(keys);
+      console.log(values);
+      // qMarks=''
+      // for(let value of values){
+      //   qMarks+='? , ';
+      // }
+      let stringArray = keys.map((key, index)=> `${key} = ?, `);
+      let string = '';
+      stringArray.forEach((str)=>{string+=str})
+      let sqlquery = `UPDATE ${table} SET ${string} WHERE id = ${rowId};`;
+      console.log(sqlquery)
+      return db.query(sqlquery, values, (err, result) => {
         if (err || result.length == 0) {
             // display a message when the keyword was not found in the database
+            console.log("Data not successfully")
             return console.error(err.message);
         } else {
-        res("Data updated successfully")
+        console.log("Data updated successfully")
+        res.end();
         }
     });
+    });
+    req.pipe(busboy);
+
+
+    
+    // let sqlquery = ` ${table} SET ${string} WHERE id = ${rowId}`;
+    // return db.query(sqlquery, (err, result) => {
+    //     if (err || result.length == 0) {
+    //         // display a message when the keyword was not found in the database
+    //         return console.error(err.message);
+    //     } else {
+    //     res("Data updated successfully")
+    //     }
+    // });
 })
 
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
   
-// https.createServer({
-//     key: fs.readFileSync('server/server.key'),
-//     cert: fs.readFileSync('server/server.cert')
-//   }, app)
-//   .listen(3001, function () {
-//     console.log('Example app listening on port 3000! Go to https://localhost:3001/')
-//   });
+https.createServer({
+    key: fs.readFileSync('server/server.key'),
+    cert: fs.readFileSync('server/server.cert')
+  }, app)
+  .listen(3001, function () {
+    console.log('Example app listening on port 3000! Go to https://localhost:3001/')
+  });

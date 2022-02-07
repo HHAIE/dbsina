@@ -1,17 +1,6 @@
-// import {
-//   _getTable,
-//   _getTableColumns,
-//   _getQuestions,
-//   _saveQuestionAnswer,
-//   _saveQuestion,
-//   _addTableRow,
-//   _removeTableRow,
-//   _updateTableRow
-// } from './_DATA.js'
-
 import {idToList, tableColumnsArray} from './helpers'
-// let fetchingURL = 'https://localhost:3001/'
-let fetchingURL = 'https://database.sinatoursegypt.com/'
+let fetchingURL = 'https://localhost:3001/'
+// let fetchingURL = 'https://database.sinatoursegypt.com/'
 
 const categories= (cat1, cat2)=>{
   let output={}
@@ -55,11 +44,9 @@ export function getInitialData () {
   return Promise.all([
     categories("Services", "StaffCategories"),
     adminUsers("adminUsers"),
-    // _getQuestions(),
   ]).then(([categories, users]) => ({
     categories,
     users,
-    // questions,
   }))
 }
 
@@ -85,20 +72,11 @@ export function getTableData (info) {
 
 export function addTableRow (table, row) {
   let url = new URL('addTableRow', fetchingURL)
-  // url.search = new URLSearchParams({
-  //     table: table,
-  //     row: row
-  // })
   row.append('table', table)
   return fetch(url, {
     method: 'POST',
     body: row,
-    // headers: {
-    //   'Content-type': 'multipart/form-data'
-    // }
   })
-  // .then((res) => res.json())
-  // .then((resMsg) => (resMsg))
 }
 
 export function removeTableRow (table, rowId) {
@@ -109,21 +87,16 @@ export function removeTableRow (table, rowId) {
   })
 
   return fetch(url)
-  // .then((res) => res.json())
-  // .then((resMsg) => (resMsg))
 }
 
 export function updateTableRow (table, row, rowId) {
   let url = new URL('updateTableRow', fetchingURL)
-  url.search = new URLSearchParams({
-      table: table,
-      row: row,
-      rowId: rowId
+  row.append('table', table)
+  row.append('id', rowId)
+  return fetch(url, {
+    method: 'POST',
+    body: row,
   })
-
-  return fetch(url)
-  // .then((res) => res.json())
-  // .then((resMsg) => (resMsg))
 }
 
 export function getTableColumns (info) {

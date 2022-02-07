@@ -86,16 +86,29 @@ export function handleRemoveData(table, rowId, category){
   }
 }
 
-export function handleUpdateData(table, row, rowId, category){
-  return(dispatch, getState)=>{
-      // const {authedUser}=getState()
+export function handleUpdateData(table, row, category, rowId){
+  // console.log(row)
+  return (dispatch)=>{
+    // const {authedUser}=getState()
+    console.log(row)
+    console.log(table)
+    console.log(category)
+    console.log(rowId)
 
-      dispatch(showLoading())
+    dispatch(showLoading())
+    if (table !== "adminUsers"){
       return updateTableRow(table, row, rowId)
-        .then(()=>getTableData(table, category))
+        .then(()=>getTableData(table, category && category))
         .then((data)=>dispatch(getData(data, table)))
         .then(()=> dispatch(hideLoading()))
-  }
+    } else {
+      return updateTableRow(table, row, rowId)
+        .then(()=>getTableData(table, category && category))
+        .then((data)=>dispatch(receiveUsers(data, table)))
+        .then(()=> dispatch(hideLoading()))
+    }
+    
+}
 }
 
 

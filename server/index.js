@@ -239,6 +239,6 @@ app.get('*', (req, res) => {
 //     key: fs.readFileSync('server/server.key'),
 //     cert: fs.readFileSync('server/server.cert')
 //   }, app)
-//   .listen(3001, function () {
+//   .listen(80, function () {
 //     console.log('Example app listening on port 3000! Go to https://localhost:3001/')
 //   });

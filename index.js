@@ -221,21 +221,63 @@ app.get("/removeTableRow", (req, res) => {
     });
 })
   
-app.get("/updateTableRow", (req, res)=> {
-    const {table, row, rowId} =req.query
-    let keys = Object.keys(row);
-    let stringArray = keys.map((key)=> `${key} = ${row[key]}`);
-    let string = '';
-    stringArray.forEach((str)=>{string+=str})
-    let sqlquery = `UPDATE ${table} SET ${string} WHERE id = ${rowId}`;
-    return db.query(sqlquery, (err, result) => {
+app.post("/updateTableRow", (req, res)=> {
+  let busboy = new Busboy({ headers: req.headers });
+    let keys = [];
+    let values = [];
+    let table = '';
+    let base64data = [];
+    var chunks = [];
+    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+      console.log('File [' + fieldname + ']: filename: ' + filename);
+      file.on('data', function(data) {
+        console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+        chunks.push(data);
+      });
+      file.on('end', function() {
+        base64data.push(Buffer.concat(chunks));
+        console.log('File [' + fieldname + '] Finished');
+        keys.push(fieldname)
+        values.push(base64data)
+      });
+    });
+    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+      console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+      if (fieldname !== 'table' && fieldname !== 'id'){
+        keys.push(fieldname)
+        values.push(val)
+      }
+      
+      table = fieldname === 'table' && val
+      rowId = fieldname === 'id' && val
+      
+    });
+    busboy.on('finish', function() {
+      console.log('Done parsing form!');
+      console.log(keys);
+      console.log(values);
+      // qMarks=''
+      // for(let value of values){
+      //   qMarks+='? , ';
+      // }
+      let stringArray = keys.map((key, index)=> `${key} = ?, `);
+      let string = '';
+      stringArray.forEach((str)=>{string+=str})
+      let sqlquery = `UPDATE ${table} SET ${string} WHERE id = ${rowId};`;
+      console.log(sqlquery)
+      return db.query(sqlquery, values, (err, result) => {
         if (err || result.length == 0) {
             // display a message when the keyword was not found in the database
+            console.log("Data not successfully")
             return console.error(err.message);
         } else {
-        res("Data updated successfully")
+        console.log("Data updated successfully")
+        res.end();
         }
     });
+    });
+    req.pipe(busboy);
+
 })
 
 app.get('*', (req, res) => {

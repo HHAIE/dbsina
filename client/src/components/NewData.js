@@ -169,6 +169,7 @@ class NewData extends Component{
           })
           })
         } else if (action==="edit"){
+          console.log(data)
           dispatch(handleUpdateData(servicename, data, rowId))
           .then(()=>{
             this.setState(()=>{
@@ -425,7 +426,7 @@ function mapStateToProps({categories, data}, props){
   let {rowId} = action === "edit" && props.match.params
   const {dispatch}= props
   let services, staff;
-  let columns=[];
+  // let columns=[];
   // if(typeAdd){
   //   let column= async () => await handleGetTableC(servicenameAdd)
 

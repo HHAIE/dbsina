@@ -162,6 +162,7 @@ app.get("/removeTableRow", (req, res) => {
 })
   
 app.post("/updateTableRow", (req, res)=> {
+  console.log("update");
   let busboy = new Busboy({ headers: req.headers });
     let keys = [];
     let values = [];
@@ -183,14 +184,16 @@ app.post("/updateTableRow", (req, res)=> {
     });
     busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
       console.log('Field [' + fieldname + ']: value: ' + inspect(val));
-      if (fieldname !== 'table' && fieldname !== 'id'){
+      if (fieldname === 'image' && val === 'undefined'){
+        console.log("No image")
+      } else if (fieldname !== 'table' && fieldname !== 'id'){
         keys.push(fieldname)
         values.push(val)
+      } else if (fieldname === 'table'){
+        table = val
+      }else if (fieldname === 'id'){
+        rowId = val
       }
-      
-      table = fieldname === 'table' && val
-      rowId = fieldname === 'id' && val
-      
     });
     busboy.on('finish', function() {
       console.log('Done parsing form!');
@@ -203,7 +206,7 @@ app.post("/updateTableRow", (req, res)=> {
       let stringArray = keys.map((key, index)=> `${key} = ?, `);
       let string = '';
       stringArray.forEach((str)=>{string+=str})
-      let sqlquery = `UPDATE ${table} SET ${string} WHERE id = ${rowId};`;
+      let sqlquery = `UPDATE ${table} SET ${string.substring(0, string.length - 2)} WHERE id = ${rowId};`;
       console.log(sqlquery)
       return db.query(sqlquery, values, (err, result) => {
         if (err || result.length == 0) {
@@ -235,10 +238,10 @@ app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
   
-// https.createServer({
-//     key: fs.readFileSync('server/server.key'),
-//     cert: fs.readFileSync('server/server.cert')
-//   }, app)
-//   .listen(80, function () {
-//     console.log('Example app listening on port 3000! Go to https://localhost:3001/')
-//   });
+https.createServer({
+    key: fs.readFileSync('server/server.key'),
+    cert: fs.readFileSync('server/server.cert')
+  }, app)
+  .listen(3001, function () {
+    console.log('Example app listening on port 3000! Go to https://localhost:3001/')
+  });

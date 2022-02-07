@@ -86,7 +86,7 @@ export function handleRemoveData(table, rowId, category){
   }
 }
 
-export function handleUpdateData(table, row, category, rowId){
+export function handleUpdateData(table, row, rowId, category){
   // console.log(row)
   return (dispatch)=>{
     // const {authedUser}=getState()

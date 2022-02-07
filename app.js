@@ -246,14 +246,16 @@ app.post("/updateTableRow", (req, res)=> {
     });
     busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
       console.log('Field [' + fieldname + ']: value: ' + inspect(val));
-      if (fieldname !== 'table' && fieldname !== 'id'){
+      if (fieldname === 'image' && val === 'undefined'){
+        console.log("No image")
+      } else if (fieldname !== 'table' && fieldname !== 'id'){
         keys.push(fieldname)
         values.push(val)
+      } else if (fieldname === 'table'){
+        table = val
+      }else if (fieldname === 'id'){
+        rowId = val
       }
-      
-      table = fieldname === 'table' && val
-      rowId = fieldname === 'id' && val
-      
     });
     busboy.on('finish', function() {
       console.log('Done parsing form!');
@@ -266,7 +268,7 @@ app.post("/updateTableRow", (req, res)=> {
       let stringArray = keys.map((key, index)=> `${key} = ?, `);
       let string = '';
       stringArray.forEach((str)=>{string+=str})
-      let sqlquery = `UPDATE ${table} SET ${string} WHERE id = ${rowId};`;
+      let sqlquery = `UPDATE ${table} SET ${string.substring(0, string.length - 2)} WHERE id = ${rowId};`;
       console.log(sqlquery)
       return db.query(sqlquery, values, (err, result) => {
         if (err || result.length == 0) {
@@ -281,6 +283,17 @@ app.post("/updateTableRow", (req, res)=> {
     });
     req.pipe(busboy);
 
+
+    
+    // let sqlquery = ` ${table} SET ${string} WHERE id = ${rowId}`;
+    // return db.query(sqlquery, (err, result) => {
+    //     if (err || result.length == 0) {
+    //         // display a message when the keyword was not found in the database
+    //         return console.error(err.message);
+    //     } else {
+    //     res("Data updated successfully")
+    //     }
+    // });
 })
 
 app.get('*', (req, res) => {

@@ -92,6 +92,7 @@ export function removeTableRow (table, rowId) {
 export function updateTableRow (table, row, rowId) {
   let url = new URL('updateTableRow', fetchingURL)
   row.append('table', table)
+  console.log(rowId)
   row.append('id', rowId)
   return fetch(url, {
     method: 'POST',

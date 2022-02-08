@@ -73,9 +73,19 @@
 }
 
 @media screen and (max-width: 990px){
-    modal-content {
-        width: 100%;
-   }
+    .modal-content {
+        width: 95%;
+    }
+    ul.modal-content {
+        margin-bottom: 10%;
+    }
+    .close{
+        font-size: 12vw;
+        right: 5px;
+        top: 20px;
+        text-shadow: -2px 5px 3px rgb(0 0 0 / 80%);
+        color: #eee;
+    }
 }
 
 

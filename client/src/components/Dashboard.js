@@ -12,7 +12,8 @@ class Dashboard extends Component{
     state={
         answered: false,
         optimizedView: true,
-        tableColumn: []
+        tableColumn: [],
+        searchInput:''
     }
 
     toggleAnswered=(e, answered)=>{
@@ -34,8 +35,16 @@ class Dashboard extends Component{
       })
     }
 
+    handleSearchChange=(e)=>{
+      const searchInput = e.target.value
+
+      this.setState(()=>({
+        searchInput: searchInput,
+      }))
+  }
+
     render(){
-        const {answered, optimizedView, tableColumn} = this.state
+        const {answered, optimizedView, tableColumn, searchInput} = this.state
         const {answeredQ, unansweredQ, dataShown, currentTable}=this.props
         return(
             <div className='dashboard'>
@@ -64,7 +73,14 @@ class Dashboard extends Component{
                       </span>
                   </div>}
                 {optimizedView ? <div className='questions'>
-                  { (dataShown!==null) ? Object.keys(dataShown).map((q)=>(<Question key={q} id={q} category={false}/>))
+                  {(dataShown!==null)&& 
+                    <div key="search-bar" className="form-group row">
+                      <div className="col-sm-10">
+                        <input type='text' className="form-control" id={`colFormLabelSearchBar`} value={searchInput} placeholder="Search..." onChange={(e)=>this.handleSearchChange(e)}/>
+                      </div>
+                    </div>}
+                  { (dataShown!==null) ? 
+                  Object.keys(dataShown).filter((k)=>dataShown[k]['name'].toLowerCase().includes(searchInput.toLowerCase())).map((q)=>(<Question key={q} id={q} category={false}/>))
                   : answered ? answeredQ.map((q)=>(<Question key={q} id={q} category={true} type={"Services"}/>))
                             : unansweredQ.map((q)=>(<Question key={q} id={q} category={true} type={"Staff"}/>))}
                 </div>

@@ -217,15 +217,15 @@ class Question extends Component{
                 <ul className="modal-content">
                   {service && Object.keys(service).filter(key=> key !=="id" && key !=="image").map((key)=>
                   <li>{`${capitalizeFirstLetter(key)}: `} <span>{`${service[key]}`}</span></li>)}
-                </ul>
-                {!category && <div><button className="btn btn-primary editBtn" onClick={(this.handleEditLink)}>Edit</button>
+                  {!category && <div className='modal-btn'><button className="btn btn-primary editBtn" onClick={(this.handleEditLink)}>Edit</button>
                   <button className="btn btn-danger deleteBtn" onClick={((e)=>this.show(e))}>Delete</button>
                   <Confirm
                     open={open}
                     onCancel={((e)=>this.handleCancel(e))}
                     onConfirm={((e)=>this.handleConfirm(e, servicename, service.id))}
                   /></div>}
-                  {category && <button className="btn btn-success addBtn" onClick={(this.handleAddLink)}>Add</button>}
+                </ul>
+                
                 {/* <iframe class="modal-content" id="vid01" width="100%" height="75%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
     
                 {/* <!-- The Close Button of the Modal --> */}

@@ -9,6 +9,7 @@
     "assert-plus": "^1.0.0",
     "connect-busboy": "^0.0.2",
     "connect-form": "^0.2.1",
+    "google-maps-react": "^2.0.6",
     "mysql": "^2.18.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",

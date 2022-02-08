@@ -6,6 +6,16 @@ import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 import PhoneInput, {isValidPhoneNumber} from 'react-phone-number-input'
 import ReactStars from "react-rating-stars-component";
+import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import CurrentLocation from './CurrentLocation';
+
+const mapStyles = {
+  position: 'relative',
+  width: '90%',
+  height: '100%',
+  margin: 'auto',
+  'border-radius': '10px'
+};
 // import { type } from 'process'
 
 
@@ -18,12 +28,12 @@ class NewData extends Component{
         rating: 2.5,
         staffColumn:[],
         servicesColumn:[],
-        redir: false
-
-        // btnDisabled: true,
-        // optionTwoDisabled: true,
-        // toHome: false
+        redir: false,
+        showingInfoWindow: false,  // Hides or shows the InfoWindow
+        activeMarker: {},          // Shows the active marker upon click
+        selectedPlace: {}          // Shows the InfoWindow to the selected place upon a marker
     }
+
     componentDidMount(){
       let {action, type, servicename, services, service, staff}= this.props
       console.log(Object.keys(service))
@@ -133,7 +143,11 @@ class NewData extends Component{
             servicename: servicename
           }))
         })
-  }
+    }
+
+    handleMapChange=(e)=>{
+      console.log(e.google.maps.Marker())
+    }
 
     handleSubmit=(e)=>{
       const {columns, type, servicename} = this.state
@@ -221,6 +235,23 @@ class NewData extends Component{
                     : ''
       }))
     }
+
+    onMarkerClick = (props, marker, e) =>
+    {console.log(e.latLng.lat())
+      this.setState({
+        selectedPlace: props,
+        activeMarker: marker,
+        showingInfoWindow: true
+      });}
+
+    onClose = props => {
+      if (this.state.showingInfoWindow) {
+        this.setState({
+          showingInfoWindow: false,
+          activeMarker: null
+        });
+      }
+    };
 
     render(){
         const {type, servicename, columns, servicesColumn, staffColumn, redir}= this.state
@@ -345,10 +376,49 @@ class NewData extends Component{
                     <br/>
                     <h3>Address Details</h3>
                     {columns.map((column)=>
-                    (column === 'governorate' || column === 'city' || column === 'street' || column === 'building' || column === 'location')
-                    &&<div key={column} className="form-group row">
+                    (column === 'governorate' || column === 'city' || column === 'street' || column === 'building')
+                    ?<div key={column} className="form-group row">
                        <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                        <div className="col-sm-10">
+                         <input type="text" className="form-control" name={column} id={`colFormLabel${column}`} defaultValue={action==="edit" && service[column]} required/>
+                       </div>
+                     </div>
+                     : column === 'location' && 
+                     <div key={column} className="form-group row" style={{height: "50vh"}}>
+                      <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
+                       {/* <Map
+                        google={this.props.google}
+                        zoom={14}
+                        className="map"
+                        style={mapStyles}
+                        initialCenter={
+                          {
+                            lat: -1.2884,
+                            lng: 36.8233
+                          }
+                        }
+                        onClick={(e)=>this.handleMapChange(e)}
+                      > */}
+                      <CurrentLocation
+                        centerAroundCurrentLocation
+                        google={this.props.google}
+                      >
+                      <Marker
+                          onClick={this.onMarkerClick}
+                          name={'Current Location'}
+                        />
+                        <InfoWindow
+                          marker={this.state.activeMarker}
+                          visible={this.state.showingInfoWindow}
+                          onClose={this.onClose}
+                        >
+                          <div>
+                            <h4>{this.state.selectedPlace.name}</h4>
+                          </div>
+                        </InfoWindow>
+                        </CurrentLocation>
+                      {/* </Map> */}
+                       <div className="col-sm-10" style={{display: "none"}}>
                          <input type="text" className="form-control" name={column} id={`colFormLabel${column}`} defaultValue={action==="edit" && service[column]} required/>
                        </div>
                      </div>)}
@@ -458,4 +528,6 @@ function mapStateToProps({categories, data}, props){
   }
 }
 
-export default connect(mapStateToProps)(NewData)
+export default connect(mapStateToProps)(GoogleApiWrapper({
+  apiKey: 'AIzaSyCarqroh-Pd_ovPqPGx7EzFILgWi2YJvMs'
+})(NewData))

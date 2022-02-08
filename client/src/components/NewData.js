@@ -74,27 +74,27 @@ class NewData extends Component{
         }
       }
 
-      if (action==="add"){
-        let mySelect = document.getElementById('FormControlSelect1');
+      // if (action==="add"){
+      //   let mySelect = document.getElementById('FormControlSelect1');
 
-        for(let i, j = 0; i = mySelect.options[j]; j++) {
-            if(i.value == type) {
-                mySelect.selectedIndex = j;
-                break;
-            }
-        }
+      //   for(let i, j = 0; i = mySelect.options[j]; j++) {
+      //       if(i.value == type) {
+      //           mySelect.selectedIndex = j;
+      //           break;
+      //       }
+      //   }
 
-        mySelect = document.getElementById('FormControlSelect2');
+      //   mySelect = document.getElementById('FormControlSelect2');
 
-        if(mySelect!==null){
-          for(let i, j = 0; i = mySelect.options[j]; j++) {
-            if(i.value == servicename) {
-                mySelect.selectedIndex = j;
-                break;
-            }
-          }
-        }
-      }
+      //   if(mySelect!==null){
+      //     for(let i, j = 0; i = mySelect.options[j]; j++) {
+      //       if(i.value == servicename) {
+      //           mySelect.selectedIndex = j;
+      //           break;
+      //       }
+      //     }
+      //   }
+      // }
       }
     }
 
@@ -239,22 +239,22 @@ class NewData extends Component{
                   {action==="add" && <div className="form-group row">
                     <label htmlFor="FormControlSelect1">Category</label>
                     <div className="col-sm-10">
-                    <select className="form-control" id="FormControlSelect1" name='table' onChange={(e)=>this.handleTypeChange(e)}>
-                    <option value='Services'>Services</option>
-                    <option value='Staff'>Staff</option>
-                    </select>
+                      <select className="form-control" id="FormControlSelect1" onChange={(e)=>this.handleTypeChange(e)} value={`${type}`}>
+                        <option value='Services'>{`Services`}</option>
+                        <option value='Staff'>{`Staff`}</option>
+                      </select>
                     </div>
                   </div>}
                   {action==="add" && <div className="form-group row">
                     <label htmlFor="FormControlSelect2"> Subcategory </label>
                     <div className="col-sm-10">
-                    {type==='Staff' &&<select className="form-control" id="FormControlSelect2" onChange={(e)=>this.handleServiceChange(e)}>
+                    {type==='Staff' &&<select className="form-control" id="FormControlSelect2" onChange={(e)=>this.handleServiceChange(e)} defaultValue={servicename}>
                       {staffColumn.map((s)=>
                         <option key={s} value={s}>{`${s}`}</option>
                       )}
                       {/* <option value='Tour-Guide'>Tour-Guide</option> */}
                     </select>}
-                    {type==='Services' &&<select className="form-control" id="FormControlSelect2" onChange={(e)=>this.handleServiceChange(e)}>
+                    {type==='Services' &&<select className="form-control" id="FormControlSelect2" onChange={(e)=>this.handleServiceChange(e)} defaultValue={servicename}>
                     {servicesColumn.map((s)=>
                         <option key={s} value={s}>{`${s}`}</option>
                       )}

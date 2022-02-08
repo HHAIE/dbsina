@@ -21,7 +21,7 @@ function Nav(props){
                         </NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to='/add/Staff/Guides' exact activeClassName='active' className="nav-link">
+                        <NavLink to='/new_data/add/Staff/Guides' exact activeClassName='active' className="nav-link">
                             Add item
                         </NavLink>
                     </li>
@@ -44,7 +44,7 @@ function Nav(props){
                     <div className="col-xs-4 text-center"><NavLink to='/' exact activeClassName='active'>
                             <i className="fa fa-home"></i>
                         </NavLink></div>
-                    <div className="col-xs-4 text-center"><NavLink to='/add/Staff/Guides' exact activeClassName='active'>
+                    <div className="col-xs-4 text-center"><NavLink to='/new_data/add/Staff/Guides' exact activeClassName='active'>
                             <i className="fa fa-plus-circle"></i>
                         </NavLink></div>
                     <div className="col-xs-4 text-center"><a href="#"><i className="fa fa-cog"></i></a></div>

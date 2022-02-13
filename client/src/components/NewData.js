@@ -8,6 +8,7 @@ import PhoneInput, {isValidPhoneNumber} from 'react-phone-number-input'
 import ReactStars from "react-rating-stars-component";
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import CurrentLocation from './CurrentLocation';
+import MyGoogleMap from './MyGoogleMap';
 
 const mapStyles = {
   position: 'relative',
@@ -20,6 +21,10 @@ const mapStyles = {
 
 
 class NewData extends Component{
+  constructor(props) {
+    super(props);
+    this.maps1 = React.createRef();
+  }
     state={
         type:'',
         servicename:'',
@@ -146,12 +151,16 @@ class NewData extends Component{
     }
 
     handleMapChange=(e)=>{
-      console.log(e.google.maps.Marker())
+      console.log("Hi")
+      console.log(this.maps1 && this.maps1.current.state.lat)
     }
 
     handleSubmit=(e)=>{
       const {columns, type, servicename} = this.state
       const {dispatch, action, rowId} = this.props
+
+      let mapState = this.maps1.current && this.maps1.current.state
+      console.log(`${mapState.lat},${mapState.lng}`)
 
         e.preventDefault()
         let joinArray = (arr) => {
@@ -167,6 +176,7 @@ class NewData extends Component{
           if(e.target.elements[column]){
             let val = column === 'Languages' ? joinArray(e.target.elements[column])
             : column === 'image' ? e.target.elements[column].files[0] && e.target.elements[column].files[0]
+            : column === 'location' ? `${mapState.lat},${mapState.lng}`
             // fs.readFileSync(e.target.elements[column].files[0].path)
             :e.target.elements[column].value!=='' && e.target.elements[column].value
             data.append(column, val)
@@ -384,7 +394,7 @@ class NewData extends Component{
                        </div>
                      </div>
                      : column === 'location' && 
-                     <div key={column} className="form-group row" style={{height: "50vh"}}>
+                     <div key={column} className="form-group row" style={{height: "70vh"}}>
                       <label htmlFor={`colFormLabel${column}`} className="col-sm-2 col-form-label">{column}</label>
                        {/* <Map
                         google={this.props.google}
@@ -399,8 +409,9 @@ class NewData extends Component{
                         }
                         onClick={(e)=>this.handleMapChange(e)}
                       > */}
-                      <CurrentLocation
+                      {/* <CurrentLocation
                         centerAroundCurrentLocation
+                        onClick={(e)=>this.handleMapChange(e)}
                         google={this.props.google}
                       >
                       <Marker
@@ -416,8 +427,11 @@ class NewData extends Component{
                             <h4>{this.state.selectedPlace.name}</h4>
                           </div>
                         </InfoWindow>
-                        </CurrentLocation>
+                        </CurrentLocation> */}
                       {/* </Map> */}
+                      <div className="main-wrapper" onClick={(e)=>this.handleMapChange(e)}>
+                        <MyGoogleMap ref={this.maps1} loc={action==="edit" && service[column]} />
+                      </div>
                        <div className="col-sm-10" style={{display: "none"}}>
                          <input type="text" className="form-control" name={column} id={`colFormLabel${column}`} defaultValue={action==="edit" && service[column]} required/>
                        </div>
@@ -494,7 +508,7 @@ class NewData extends Component{
 function mapStateToProps({categories, data}, props){
   let {action, typeAdd, servicenameAdd} = props.match.params
   let {rowId} = action === "edit" && props.match.params
-  const {dispatch}= props
+  const {dispatch, google}= props
   let services, staff;
   // let columns=[];
   // if(typeAdd){
@@ -524,10 +538,13 @@ function mapStateToProps({categories, data}, props){
       rowId:action ==="edit" && rowId,
       services:action ==="add" && services,
       staff:action ==="add" && staff,
-      dispatch: dispatch
+      dispatch: dispatch,
+      google: google
   }
 }
 
-export default connect(mapStateToProps)(GoogleApiWrapper({
-  apiKey: 'AIzaSyCarqroh-Pd_ovPqPGx7EzFILgWi2YJvMs'
-})(NewData))
+// export default connect(mapStateToProps)(GoogleApiWrapper({
+//   apiKey: 'AIzaSyCarqroh-Pd_ovPqPGx7EzFILgWi2YJvMs'
+// })(NewData))
+
+export default connect(mapStateToProps)(NewData)

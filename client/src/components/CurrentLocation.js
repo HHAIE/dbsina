@@ -64,6 +64,16 @@ export class CurrentLocation extends React.Component {
     this.loadMap();
   }
 
+  handleMapChange=(e)=>{
+      console.log(e)
+      this.setState({
+        currentLocation: {
+          lat: e.clientX,
+          lng: e.clientY
+        }
+      });
+    }
+
   loadMap() {
     if (this.props && this.props.google) {
       // checks if google is available
@@ -89,6 +99,7 @@ export class CurrentLocation extends React.Component {
 
       // maps.Map() is constructor that instantiates the map
       this.map = new maps.Map(node, mapConfig);
+      this.map.onClick = (e)=>this.handleMapChange(e)
     }
   }
 
@@ -103,6 +114,7 @@ export class CurrentLocation extends React.Component {
       return React.cloneElement(c, {
         map: this.map,
         google: this.props.google,
+        onClick: (e)=>this.handleMapChange(e),
         mapCenter: this.state.currentLocation
       });
     });
@@ -112,7 +124,7 @@ export class CurrentLocation extends React.Component {
     const style = Object.assign({}, mapStyles.map);
 
     return (
-      <div style={{height: '100%', margin: '2% auto'}}>
+      <div style={{height: '100%', margin: '2% auto'}} onClick = {(e)=>this.handleMapChange(e)}>
         <div style={style} ref="map">
           Loading map...
         </div>

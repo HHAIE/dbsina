@@ -284,10 +284,10 @@ app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
 });
   
-https.createServer({
-    key: fs.readFileSync('server/server.key'),
-    cert: fs.readFileSync('server/server.cert')
-  }, app)
-  .listen(80, function () {
-    console.log('Example app listening on port 3000! Go to https://localhost:3001/')
-  });
+// https.createServer({
+//     key: fs.readFileSync('server/server.key'),
+//     cert: fs.readFileSync('server/server.cert')
+//   }, app)
+//   .listen(80, function () {
+//     console.log('Example app listening on port 3000! Go to https://localhost:3001/')
+//   });

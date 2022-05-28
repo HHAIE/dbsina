@@ -28,7 +28,7 @@ app.use(busboy());
 
 // establish connection parameters to foods database
 db = mysql.createConnection({
-  host: "byun.eunostus.dreamhost.com",
+  host: "poffenroth.iad1-mysql-e2-1a.dreamhost.com",
   user: "hazim",
   password: "Meandhim1",
   database: "sinatoursdb"

@@ -205,7 +205,7 @@ class SignIn extends Component{
 
                 {/* main code to implement */}
                 <FacebookLogin
-                appId="1335047956992839"
+                appId= {process.env.FB_lOGIN_ID}
                 autoLoad={true}
                 fields="name,email,picture"
                 isMobile={false}

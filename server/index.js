@@ -12,6 +12,7 @@ let inspect = require('util').inspect;
 //...
 
 
+
 const PORT = process.env.PORT || 3001;
 
 const app = express();
@@ -28,10 +29,10 @@ app.use(busboy());
 
 // establish connection parameters to foods database
 db = mysql.createConnection({
-  host: "poffenroth.iad1-mysql-e2-1a.dreamhost.com",
-  user: "hazim",
-  password: "Meandhim1",
-  database: "sinatoursdb"
+  host: process.env.DBHOST,
+  user: process.env.DBUSER,
+  password: process.env.DBPASS,
+  database: process.env.DB
 });
 
 // connect to foods database

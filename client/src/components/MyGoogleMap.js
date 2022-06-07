@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import AutoComplete from './Autocomplete';
 import Marker from './Marker';
 
+
 const Wrapper = styled.main`
   width: 100%;
   height: 80%;
@@ -164,7 +165,7 @@ class MyGoogleMap extends Component {
                     onChildClick={() => console.log('child click')}
                     onClick={this._onClick}
                     bootstrapURLKeys={{
-                        key: 'AIzaSyCarqroh-Pd_ovPqPGx7EzFILgWi2YJvMs',
+                        key: process.env.GOOGLE_MAPS_API,
                         libraries: ['places', 'geometry'],
                     }}
                     yesIWantToUseGoogleMapApiInternals
